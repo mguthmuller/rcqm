@@ -57,19 +57,14 @@ module Rcqm
       # Create dir 'reports' if it does not exist yet
       if !(Dir.exist?("reports")) then Dir.mkdir("reports", 0755) end
 
-      new_result = Result.new(Time.now, total)
-      
-      File.open("reports/tags.json", 'a+') do |file|
-        if File.size?(file) == nil # Empty file
-          new_entry = {filename => [{'date' => Time.now, 'total' => total}]}.to_json
-          file << new_entry
-        else
-          json_res = JSON.parse(file.read)
-          puts  json_res[filename].to_a
-          json_res[filename].to_a << {'date' => Time.now, 'total' => total}
-          JSON.dump(json_res, file)
-        end
+      if File::exist?('reports/tags.json')
+        reports = JSON::parse(IO::read('reports/tags.json'))
+      else
+        reports = {}
       end
+      reports[filename] ||= []
+      reports[filename] << {'date' => Time.now, 'total' => total}
+      File::open('reports/tags.json', 'w') { |fd| fd.print(JSON.pretty_generate(reports)) }
     end
       
   end
