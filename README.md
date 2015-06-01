@@ -25,17 +25,26 @@ rcqm [options]
 - With '-m tags' option
 - You can specify other tags with '-t' option
 
+### Statistics (per file)
+- Total lines
+- Empty lines
+- Commented lines
+- Lines of code
+- Modules
+- Classes
+- Methods
+- Requires
+
 ### Not implemented yet ...
 - Code Coverage
 - Coding Style
-- Statistics (LOC, Comments, ...)
 - Cyclomatic complexity
 - Dead Code
 - Duplication
 
 ## Analysis reporting
 
-Results of each analysis are stored in a json file (tags.json, statistics.json, ...)  in 'reports' directory
+Results of each analysis are stored in a json file ('tags.json', 'statistics.json', ...)  in 'reports' directory
 
 ## Dependancies:
 
