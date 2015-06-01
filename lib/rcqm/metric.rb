@@ -6,6 +6,7 @@ module Rcqm
 
     def initialize(options)
       @options = options
+      
       check_options_values
     end
 
@@ -45,13 +46,13 @@ module Rcqm
         elsif File.directory?("#{dirname}/#{subfile}")
           check_dir("#{dirname}/#{subfile}")
         else
-          puts "#{subfile}: Unknown type of file #{File.ftype('#{dirname}/#{subfile}')}. Aborted!"
+          puts "#{subfile}: Unknown type of file #{File.ftype(dirname/subfile)}. Aborted!"
           exit
         end
       end
     end
     
-    def check 
+     def check
       @files.each do |filename|
         next if (filename.eql? "..") || (filename.eql? ".")
         if File.file?(filename)
@@ -63,7 +64,7 @@ module Rcqm
           exit
         end
       end
-    end
+     end
     
   end
 
