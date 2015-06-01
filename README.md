@@ -33,5 +33,9 @@ rcqm [options]
 - Dead Code
 - Duplication
 
+## Analysis reporting
+
+Results of each analysis are stored in a json file (tags.json, statistics.json, ...)  in 'reports' directory
+
 ## Dependancies:
 
