@@ -1,5 +1,3 @@
-require_relative 'result.rb'
-
 module Rcqm
 
   class Metric

@@ -1,7 +1,7 @@
 require 'optparse'
 require_relative 'rcqm/coverage.rb'
 require_relative 'rcqm/coding_style.rb'
-require_relative 'rcqm/comments.rb'
+require_relative 'rcqm/statistics.rb'
 require_relative 'rcqm/tags.rb'
 require_relative 'rcqm/complexity.rb'
 
@@ -62,9 +62,9 @@ module Rcqm
         when "coding_style"
           @coding_style_metric = CodingStyle.new(@options)
           @coding_style_metric.check
-        when "comments"
-          @comments_metric = Comments.new(@options)
-          @comments_metric.check
+        when "statistics"
+          @statistics_metric = Statistics.new(@options)
+          @statistics_metric.check
         when "tags"
           @tags_metric = Tags.new(@options)
           @tags_metric.check
@@ -84,8 +84,8 @@ module Rcqm
       @coverage_metric.check
       @coding_style_metric = CodingStyle.new(@files, @excluded_files)
       @coding_style_metric.check
-      @comments_metric = Comments.new(@files, @excluded_files)
-      @comments_metric.check
+      @statistics_metric = Statistics.new(@files, @excluded_files)
+      @statistics_metric.check
       @tags_metric = Tags.new(@files, @excluded_files)
       @tags_metric.check
       @complexity_metric = Complexity.new(@files, @excluded_files)
