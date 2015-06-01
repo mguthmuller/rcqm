@@ -21,11 +21,11 @@ rcqm [options]
 
 ## Functionalities:
 
-### Tags (FIXME, TODO, ...) tracking
-- With '-m tags' option
+### Tags (FIXME, TODO, ...) tracking (with '-m tags' option)
+
 - You can specify other tags with '-t' option
 
-### Statistics (per file)
+### Statistics (per file, with '-m statistics' option)
 - Total lines
 - Empty lines
 - Commented lines
