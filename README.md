@@ -9,6 +9,7 @@ rcqm [options]
 - -e, --exclude=FILES              Exclude files from analysis (separate with ',')
 - -m, --metrics=METRICS            List of metrics to evaluate (separate with ',')
 - -t, --tags=TAGS                  List of tags to evaluate (separate with ',')
+- -s, --statistics=STATISTICS      List of statistics to evaluate (separate with ',')
 - -v, --verbose=VERBOSE            Enable/Disable verbose mode
 
 ## Metrics name:
@@ -23,11 +24,11 @@ rcqm [options]
 
 ### Tags (FIXME, TODO, ...) tracking (with '-m tags' option)
 
-- You can specify other tags with '-t' option
+You can specify other tags with '-t' option
 
 ### Statistics (per file, with '-m statistics' option)
 
-- You can specify which statistics to evaluate with '-s' option
+You can specify which statistics to evaluate with '-s' option
 
 #### List of statistics available
 - total: Total lines
