@@ -53,34 +53,6 @@ module Rcqm
       end
     end
 
-    # def diff_result(res)
-    #   old_lines = 0
-    #   total_lines = 0
-    #   total_lines_set = false
-    #   puts File.size("reports/last_tags.json")
-    #   if res.length > 0
-    #     last_results = File.open("reports/last_tags.json", "r") 
-    #     res.each do |filename, line_num, line|
-    #       last_results.each_line do |file_line|
-    #         puts " booooo #{file_line}"
-    #         if file_line.eql? "#{filename}(#{line_num}): #{line.strip}"
-    #           old_lines += 1
-    #           break
-    #         end
-    #         total_lines += 1 if !total_lines_set
-    #       end
-    #       total_lines_set = true
-    #       last_results.rewind
-    #     end
-    #     removed_lines = total_lines - old_lines
-    #     new_lines = res.length - old_lines
-        
-    #     puts "Old lines: #{old_lines} - Removed lines: #{removed_lines} - New lines: #{new_lines}"
-    #   else
-    #     return 
-    #   end
-    # end
-
     def format_result(res)
       return nil if res.empty?
       result = []
