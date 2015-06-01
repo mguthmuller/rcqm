@@ -2,7 +2,7 @@
 
 ## Usage:
 
-rcqm [options] (use `--help` to see all options)
+rcqm [options] 
 
 ## Metrics name:
 - coverage 
