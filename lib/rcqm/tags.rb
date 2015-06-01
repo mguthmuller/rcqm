@@ -73,7 +73,7 @@ module Rcqm
         reports = {}
       end
       reports[filename] ||= []
-      reports[filename] << {'date' => Time.now, 'total' => res.length, 'output' => format_result(res)}
+      reports[filename] << {'Date' => Time.now, 'Total' => res.length, 'Output' => format_result(res)}
       File.open('reports/tags.json', 'w') do |fd|
         fd.puts(JSON.pretty_generate(reports))
       end
