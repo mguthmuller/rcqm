@@ -26,14 +26,19 @@ rcqm [options]
 - You can specify other tags with '-t' option
 
 ### Statistics (per file, with '-m statistics' option)
-- Total lines
-- Empty lines
-- Commented lines
-- Lines of code
-- Modules
-- Classes
-- Methods
-- Requires
+
+- You can specify which statistics to evaluate with '-s' option
+
+#### List of statistics available
+- total: Total lines
+- empty: Empty lines
+- comments: Commented lines
+- locs: Lines of code
+- modules: Number of modules ('module' tag tracking)
+- classes: Number of classes ('class' tag tracking) 
+- methods: Methods ('def' tag tracking)
+- requires: Requires ('require*' tag tracking
+
 
 ### Not implemented yet ...
 - Code Coverage
