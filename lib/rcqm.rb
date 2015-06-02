@@ -4,6 +4,7 @@ require_relative 'rcqm/coding_style.rb'
 require_relative 'rcqm/statistics.rb'
 require_relative 'rcqm/tags.rb'
 require_relative 'rcqm/complexity.rb'
+require_relative 'rcqm/documentation.rb'
 
 module Rcqm
 
@@ -36,6 +37,11 @@ module Rcqm
         opts.on("-tTAGS", "--tags=TAGS",
                 "List of tags to evaluate (separate with ',')") do |x|
           @options[:tags] = x
+        end
+        # Define specific tags to check
+        opts.on("-sSTATISTICS", "--statistics=STATISTICS",
+                "List of statistics to evaluate (separate with ',')") do |x|
+          @options[:stats] = x
         end
         # Enable/Disable verbose mode
         opts.on("-vVERBOSE","--verbose=VERBOSE",
@@ -71,6 +77,9 @@ module Rcqm
         when "complexity"
           @complexity_metric = Complexity.new(@options)
           @complexity_metric.check
+        when "documentation"
+          @documentation_metric = Documentation.new(@options)
+          @documentation_metric.check
         when "all"
           check_all
         else 
