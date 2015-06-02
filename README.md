@@ -18,6 +18,7 @@ rcqm [options]
 - statistics
 - tags
 - complexity 
+- documentation
 - all
 
 ## Functionalities:
@@ -38,8 +39,17 @@ You can specify which statistics to evaluate with '-s' option
 - modules: Number of modules ('module' tag tracking)
 - classes: Number of classes ('class' tag tracking) 
 - methods: Methods ('def' tag tracking)
-- requires: Requires ('require*' tag tracking
+- requires: Requires ('require*' tag tracking)
 
+### Documentation rates (with '-m documentation' option)
+
+Based on 'inch' gem
+
+#### Documentation grade
+- A: Seems really good
+- B: Properly documented
+- C: Needs work
+- U: Undocumented
 
 ### Not implemented yet ...
 - Code Coverage
@@ -53,4 +63,4 @@ You can specify which statistics to evaluate with '-s' option
 Results of each analysis are stored in a json file ('tags.json', 'statistics.json', ...)  in 'reports' directory
 
 ## Dependancies:
-
+- inch 
