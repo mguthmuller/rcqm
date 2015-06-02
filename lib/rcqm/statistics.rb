@@ -55,7 +55,7 @@ module Rcqm
     end
 
     def report_result(filename, res)
-       # Create dir 'reports' if it does not exist yet
+      # Create dir 'reports' if it does not exist yet
       if !(Dir.exist?('reports')) then Dir.mkdir('reports', 0755) end
       
       # Store analysis results
