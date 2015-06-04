@@ -26,6 +26,10 @@ rcqm [options]
 - documentation
 - all
 
+## Default files included in the analysis
+
+app, bin, feature, lib, spec and test directories
+
 ## Functionalities:
 
 ### Tags (FIXME, TODO, ...) tracking (with '-m tags' option)
