@@ -43,10 +43,10 @@ module Rcqm
                 'List of statistics to evaluate (separate with ',')') do |x|
           @options[:stats] = x
         end
-        # Enable/Disable verbose mode
-        opts.on('-vVERBOSE','--verbose=VERBOSE',
-                'Enable/Disable verbose mode') do |x|
-          @options[:verbose] = x
+        # Upload your own rubocop configuration file
+        opts.on('-cCONFIG_FILE', '--config=CONFIG_FILE',
+                'Upload your own rubocop configuration file') do |x|
+          @options[:config] = x
         end
       end
       

@@ -14,7 +14,8 @@ module Rcqm
 
     def check_file(filename)
       puts "== Analyze file #{filename} =="
-      rubocop_res = `rubocop --format simple -c config/.rubocop.yml #{filename}`
+      config = (@options[:config].nil?) ? 'config/.rubocop.yml' : @options[:config]
+      rubocop_res = `rubocop --format simple -c #{config} #{filename}`
       results = parse_rubocop_output(rubocop_res)
       print_offenses(results)
       report_result(filename, results)

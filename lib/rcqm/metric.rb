@@ -3,8 +3,7 @@ module Rcqm
   class Metric
 
     def initialize(options)
-      @options = options
-      
+      @options = options      
       check_options_values
     end
 

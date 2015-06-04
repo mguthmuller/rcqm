@@ -10,7 +10,7 @@ rcqm [options]
 - -m, --metrics=METRICS            List of metrics to evaluate (separate with ',')
 - -t, --tags=TAGS                  List of tags to evaluate (separate with ',')
 - -s, --statistics=STATISTICS      List of statistics to evaluate (separate with ',')
-- -v, --verbose=VERBOSE            Enable/Disable verbose mode
+- -c, --config=CONFIG_FILE            Upload your own rubocop configuration file
 
 ## Metrics name:
 - coverage 
@@ -51,9 +51,14 @@ Based on 'inch' gem
 - C: Needs work
 - U: Undocumented
 
+### Coding style (with '-m coding_style' option)
+
+- Based on rubocop gem
+- Configuration file in config/.rubocop.yml
+- You can include you own rubocop configuration with '-c path/config/file' option
+
 ### Not implemented yet ...
 - Code Coverage
-- Coding Style
 - Cyclomatic complexity
 - Dead Code
 - Duplication
@@ -63,4 +68,5 @@ Based on 'inch' gem
 Results of each analysis are stored in a json file ('tags.json', 'statistics.json', ...)  in 'reports' directory
 
 ## Dependancies:
-- inch 
+- inch
+- rubocop
