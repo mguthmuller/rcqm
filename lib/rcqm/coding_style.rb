@@ -7,9 +7,11 @@ module Rcqm
 
     def initialize(*args)
       super(*args)
-      puts '\n************************************************'
+      puts 
+      puts '**************************************************'
       puts '******************* Coding style *****************'
-      puts '************************************************'
+      puts '**************************************************'
+      puts 
     end
 
     def check_file(filename)
@@ -37,22 +39,46 @@ module Rcqm
         column_number = splitted_line[2].gsub(/\:/,'')
         index_end = splitted_line.length
         msg = splitted_line[3..index_end-1].join(' ')
+        complete_msg = "Line: #{line_number}, Column: #{column_number} - #{msg}"
         case offense_level
         when 'C'
-          offenses[:C] << "Line: #{line_number}, Column: #{column_number} - #{msg}"
+          offenses[:C] << complete_msg
         when 'E'
-          offenses[:E] << "Line: #{line_number}, Column: #{column_number} - #{msg}"
+          offenses[:E] << complete_msg
         when 'F'
-          offenses[:F] << "Line: #{line_number}, Column: #{column_number} - #{msg}"
+          offenses[:F] << complete_msg
         when 'W'
-          offenses[:W] << "Line: #{line_number}, Column: #{column_number} - #{msg}"
+          offenses[:W] << complete_msg
         end
       end
       offenses
     end
 
-    def print_offenses(results)
-
+    def print_offenses(res)
+      unless res[:C].empty?
+        puts '# Issues with convention:'
+        res[:C].each do |item|
+          puts "  - #{item}" 
+        end
+      end
+      unless res[:E].empty?
+        puts '# Errors:'
+        res[:E].each do |item|
+          puts "  - #{item}" 
+        end
+      end
+      unless res[:F].empty?
+        puts '# Fatal errors:' 
+        res[:F].each do |item|
+          puts "  - #{item}" 
+        end
+      end
+      unless res[:W].empty?
+        puts '# Warnings:' 
+        res[:W].each do |item|
+          puts "  - #{item}" 
+        end
+      end
     end
 
     def report_result(filename, res)

@@ -44,7 +44,8 @@ You can specify which statistics to evaluate with '-s' option
 - modules: Number of modules ('module' tag tracking)
 - classes: Number of classes ('class' tag tracking) 
 - methods: Methods ('def' tag tracking)
-- requires: Requires ('require*' tag tracking)
+- requires: Requires ('require' tag tracking)
+- all : All previous statistics
 
 ### Documentation rates (with '-m documentation' option)
 

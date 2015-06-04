@@ -7,9 +7,11 @@ module Rcqm
 
     def initialize(*args)
       super(*args)
-      puts '\n************************************************'
-      puts '*************** Documentation  rates*************'
+      puts 
       puts '************************************************'
+      puts '*************** Documentation  rates************'
+      puts '************************************************'
+      puts 
     end
     
     def check_file(filename)
@@ -73,25 +75,25 @@ module Rcqm
       unless res[:A].empty?
         puts '# Good documentation:'
         res[:A].each do |item|
-          puts "\t- #{item}" 
+          puts "  - #{item}" 
         end
       end
       unless res[:B].empty?
         puts '# Properly documented, but could be improved:'
         res[:B].each do |item|
-          puts "\t- #{item}" 
+          puts "  - #{item}" 
         end
       end
       unless res[:C].empty?
         puts '# Need work:' 
         res[:C].each do |item|
-          puts "\t- #{item}" 
+          puts "  - #{item}" 
         end
       end
       unless res[:U].empty?
         puts '# Undocumented:' 
         res[:U].each do |item|
-          puts "\t- #{item}" 
+          puts "  - #{item}" 
         end
       end
     end
