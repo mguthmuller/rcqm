@@ -14,10 +14,10 @@ rcqm [options]
 - -m, --metrics=METRICS            List of metrics to evaluate (separate with ',')
 - -t, --tags=TAGS                  List of tags to evaluate (separate with ',')
 - -s, --statistics=STATISTICS      List of statistics to evaluate (separate with ',')
-- -c, --config=CONFIG_FILE            Upload your own rubocop configuration file
+- -c, --config=CONFIG_FILE         Upload your own rubocop configuration file
 ```
 
-## Metrics name:
+## Metrics names:
 - coverage 
 - coding_style 
 - statistics
