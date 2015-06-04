@@ -14,7 +14,6 @@ module Rcqm
       @options = {}
       # Default values
       @options[:metrics] = 'all'
-      @options[:verbose] = 'enable'
       optparse = OptionParser.new do |opts|
         # Usage
         opts.banner = 'Usage: rcqm [options]'
@@ -54,7 +53,7 @@ module Rcqm
       begin
         optparse.parse!
       rescue OptionParser::ParseError
-        STDERR.puts("Error: #{$ERROR_INFO}")
+        $stderr.puts("Error: #{$ERROR_INFO}")
       end
     end
 
@@ -63,8 +62,7 @@ module Rcqm
       metrics.each do |metric_name|
         case metric_name
         when 'coverage'
-          @coverage_metric = Coverage.new(@options)
-          @coverage_metric.check
+          $stderr.puts("Coverage metric not implemented yet! Ignore it")
         when 'coding_style'
           @coding_style_metric = CodingStyle.new(@options)
           @coding_style_metric.check
@@ -75,30 +73,27 @@ module Rcqm
           @tags_metric = Tags.new(@options)
           @tags_metric.check
         when 'complexity'
-          @complexity_metric = Complexity.new(@options)
-          @complexity_metric.check
+          $stderr.puts("Complexity metric not implemented yet! Ignore it")
         when 'documentation'
           @documentation_metric = Documentation.new(@options)
           @documentation_metric.check
         when 'all'
           check_all
         else
-          puts "#{metric_name}: Unknown metric. Ignore it."
+          $stderr.puts "#{metric_name}: Unknown metric. Ignore it."
         end
       end
     end
 
     def check_all
-      @coverage_metric = Coverage.new(@files, @excluded_files)
-      @coverage_metric.check
-      @coding_style_metric = CodingStyle.new(@files, @excluded_files)
+      @coding_style_metric = CodingStyle.new(@options)
       @coding_style_metric.check
-      @statistics_metric = Statistics.new(@files, @excluded_files)
+      @statistics_metric = Statistics.new(@options)
       @statistics_metric.check
-      @tags_metric = Tags.new(@files, @excluded_files)
+      @tags_metric = Tags.new(@options)
       @tags_metric.check
-      @complexity_metric = Complexity.new(@files, @excluded_files)
-      @complexity_metric.check
+      @documentation_metric = Documentation.new(@options)
+      @documentation_metric.check
     end
 
     def run
