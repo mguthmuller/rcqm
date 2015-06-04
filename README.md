@@ -28,7 +28,7 @@ rcqm [options]
 
 ## Default files included in the analysis
 
-app, bin, feature, lib, spec and test directories
+'app', 'bin', 'feature', 'lib', 'spec' and 'test' directories
 
 ## Functionalities:
 
