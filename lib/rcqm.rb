@@ -26,7 +26,7 @@ module Rcqm
         # Exclude specific files from analysis
         opts.on('-eFILES', '--exclude=FILES',
                 'Exclude files from analysis (separate with ',')') do |x|
-          @options[:exclude] = x
+          @options[:exclude] = x.to_s
         end
         # Define specific metrics
         opts.on('-mMETRICS', '--metrics=METRICS',

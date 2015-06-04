@@ -61,7 +61,7 @@ Based on 'inch' gem
 
 - Based on rubocop gem
 - Configuration file in config/.rubocop.yml
-- You can include you own rubocop configuration with '-c path/config/file' option
+- You can include your own rubocop configuration with '-c path/config/file' option
 
 ### Not implemented yet ...
 - Code Coverage
