@@ -9,80 +9,80 @@ require_relative 'rcqm/documentation.rb'
 module Rcqm
 
   class Rcqm
-    
-    def initialize(args)
+
+    def initialize(_args)
       @options = {}
       # Default values
-      @options[:metrics] = "all"
-      @options[:verbose] = "enable"
+      @options[:metrics] = 'all'
+      @options[:verbose] = 'enable'
       optparse = OptionParser.new do |opts|
         # Usage
-        opts.banner = "Usage: rcqm [options]"
+        opts.banner = 'Usage: rcqm [options]'
         # Define specific files to analyze
-        opts.on("-fFILES", "--files=FILES",
-                "List of specific files to analyze (separate with ',')") do |x|
+        opts.on('-fFILES', '--files=FILES',
+                'List of specific files to analyze (separate with ',')') do |x|
           @options[:files] = x
         end
         # Exclude specific files from analysis
-        opts.on("-eFILES", "--exclude=FILES",
-                "Exclude files from analysis (separate with ',')") do |x|
+        opts.on('-eFILES', '--exclude=FILES',
+                'Exclude files from analysis (separate with ',')') do |x|
           @options[:exclude] = x
         end
         # Define specific metrics
-        opts.on("-mMETRICS", "--metrics=METRICS",
-                "List of metrics to evaluate (separate with ',')") do |x|
+        opts.on('-mMETRICS', '--metrics=METRICS',
+                'List of metrics to evaluate (separate with ',')') do |x|
           @options[:metrics] = x
         end
         # Define specific tags to check
-        opts.on("-tTAGS", "--tags=TAGS",
-                "List of tags to evaluate (separate with ',')") do |x|
+        opts.on('-tTAGS', '--tags=TAGS',
+                'List of tags to evaluate (separate with ',')') do |x|
           @options[:tags] = x
         end
         # Define specific tags to check
-        opts.on("-sSTATISTICS", "--statistics=STATISTICS",
-                "List of statistics to evaluate (separate with ',')") do |x|
+        opts.on('-sSTATISTICS', '--statistics=STATISTICS',
+                'List of statistics to evaluate (separate with ',')') do |x|
           @options[:stats] = x
         end
         # Enable/Disable verbose mode
-        opts.on("-vVERBOSE","--verbose=VERBOSE",
-                "Enable/Disable verbose mode") do |x|
+        opts.on('-vVERBOSE','--verbose=VERBOSE',
+                'Enable/Disable verbose mode') do |x|
           @options[:verbose] = x
-        end         
+        end
       end
       
       # Parse options et check their validity
       begin
         optparse.parse!
       rescue OptionParser::ParseError
-        STDERR.puts("Error: #{$!}")
+        STDERR.puts("Error: #{$ERROR_INFO}")
       end
     end
 
-    def get_metrics
+    def start_checks
       metrics = @options[:metrics].split(',')
       metrics.each do |metric_name|
         case metric_name
-        when "coverage"
+        when 'coverage'
           @coverage_metric = Coverage.new(@options)
           @coverage_metric.check
-        when "coding_style"
+        when 'coding_style'
           @coding_style_metric = CodingStyle.new(@options)
           @coding_style_metric.check
-        when "statistics"
+        when 'statistics'
           @statistics_metric = Statistics.new(@options)
           @statistics_metric.check
-        when "tags"
+        when 'tags'
           @tags_metric = Tags.new(@options)
           @tags_metric.check
-        when "complexity"
+        when 'complexity'
           @complexity_metric = Complexity.new(@options)
           @complexity_metric.check
-        when "documentation"
+        when 'documentation'
           @documentation_metric = Documentation.new(@options)
           @documentation_metric.check
-        when "all"
+        when 'all'
           check_all
-        else 
+        else
           puts "#{metric_name}: Unknown metric. Ignore it."
         end
       end
@@ -100,9 +100,9 @@ module Rcqm
       @complexity_metric = Complexity.new(@files, @excluded_files)
       @complexity_metric.check
     end
-    
+
     def run
-      get_metrics
+      start_checks
     end
     
   end

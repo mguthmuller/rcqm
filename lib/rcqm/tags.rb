@@ -9,16 +9,16 @@ module Rcqm
 
     def initialize(*args)
       super(*args)
-      puts "*************************************************"
-      puts "***************** Tags matching *****************"
-      puts "*************************************************"
+      puts '\n*************************************************'
+      puts '***************** Tags matching *****************'
+      puts '*************************************************'
     end
     
-    def get_regexp
+    def define_regexp
       if @options[:tags].nil?
         return 'TODO|FIXME'
       else
-        pattern = ""
+        pattern = ''
         tags_names = @options[:tags].split(',')
         tags_names.each do |tag_name|
           if pattern.empty?
@@ -35,7 +35,7 @@ module Rcqm
       puts "== Analyze file #{filename} =="
       lines = []
       line_num = 0
-      pattern = get_regexp
+      pattern = define_regexp
       File.open(filename, 'r') do |file|
         file.each_line do |line|
           line_num += 1
@@ -44,7 +44,7 @@ module Rcqm
       end
       report_result(filename, lines)
       print_tags(lines)
-      return lines
+      lines
     end
 
     def print_tags(res)
@@ -59,21 +59,25 @@ module Rcqm
       res.each do |filename, line_num, line|
         result << "#{filename}(#{line_num}): #{line.strip}"
       end
-      return result
+      result
     end
 
     def report_result(filename,res)
       # Create dir 'reports' if it does not exist yet
-      if !(Dir.exist?('reports')) then Dir.mkdir('reports', 0755) end
+      Dir.mkdir('reports', 0755) unless Dir.exist?('reports') 
       
       # Store analysis results
       if File.exist?('reports/tags.json')
-        reports = JSON::parse(IO::read('reports/tags.json'))
+        reports = JSON.parse(IO.read('reports/tags.json'))
       else
         reports = {}
       end
       reports[filename] ||= []
-      reports[filename] << {'Date' => Time.now, 'Total' => res.length, 'Output' => format_result(res)}
+      reports[filename] << {
+        'Date' => Time.now,
+        'Total' => res.length,
+        'Output' => format_result(res)
+      }
       File.open('reports/tags.json', 'w') do |fd|
         fd.puts(JSON.pretty_generate(reports))
       end

@@ -9,9 +9,9 @@ module Rcqm
 
     def initialize(*args)
       super(*args)
-      puts "**********************************************"
-      puts "***************** Statistics *****************"
-      puts "**********************************************"
+      puts '\n**********************************************'
+      puts '***************** Statistics *****************'
+      puts '**********************************************'
     end
 
     def check_file(filename)
@@ -56,11 +56,11 @@ module Rcqm
 
     def report_result(filename, res)
       # Create dir 'reports' if it does not exist yet
-      if !(Dir.exist?('reports')) then Dir.mkdir('reports', 0755) end
+      Dir.mkdir('reports', 0755) unless Dir.exist?('reports')
       
       # Store analysis results
       if File.exist?('reports/statistics.json')
-        reports = JSON::parse(IO::read('reports/statistics.json'))
+        reports = JSON.parse(IO.read('reports/statistics.json'))
       else
         reports = {}
       end
