@@ -2,15 +2,20 @@
 
 ## Usage:
 
+```bash
 rcqm [options]
+```
 
 ## Command line options
+
+```bash
 - -f, --files=FILES                List of specific files to analyze (separate with ',')
 - -e, --exclude=FILES              Exclude files from analysis (separate with ',')
 - -m, --metrics=METRICS            List of metrics to evaluate (separate with ',')
 - -t, --tags=TAGS                  List of tags to evaluate (separate with ',')
 - -s, --statistics=STATISTICS      List of statistics to evaluate (separate with ',')
 - -c, --config=CONFIG_FILE            Upload your own rubocop configuration file
+```
 
 ## Metrics name:
 - coverage 
