@@ -68,5 +68,5 @@ Based on 'inch' gem
 Results of each analysis are stored in a json file ('tags.json', 'statistics.json', ...)  in 'reports' directory
 
 ## Dependancies:
-- inch
-- rubocop
+* [inch] (https://github.com/rrrene/inch)
+* [rubocop](https://github.com/bbatsov/rubocop)
