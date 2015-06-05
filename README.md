@@ -53,7 +53,7 @@ You can specify which statistics to evaluate with '-s' option
 
 ### Documentation rates (with '-m documentation' option)
 
-Based on 'inch' gem
+Based on [inch] (https://github.com/rrrene/inch) gem
 
 #### Documentation grade
 - A: Seems really good
@@ -63,7 +63,7 @@ Based on 'inch' gem
 
 ### Coding style (with '-m coding_style' option)
 
-- Based on rubocop gem
+- Based on [rubocop](https://github.com/bbatsov/rubocop) gem
 - Configuration file in config/.rubocop.yml
 - You can include your own rubocop configuration with '-c path/config/file' option
 
