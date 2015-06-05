@@ -75,25 +75,25 @@ module Rcqm
 
     def print_documentation_rates(res)
       unless res[:A].empty?
-        puts '# Good documentation:'.bold
+        puts '# Good documentation:'.red
         res[:A].each do |item|
           puts "  - #{item}" 
         end
       end
       unless res[:B].empty?
-        puts '# Properly documented, but could be improved:'.bold
+        puts '# Properly documented, but could be improved:'.red
         res[:B].each do |item|
           puts "  - #{item}" 
         end
       end
       unless res[:C].empty?
-        puts '# Need work:'.bold 
+        puts '# Need work:'.red
         res[:C].each do |item|
           puts "  - #{item}" 
         end
       end
       unless res[:U].empty?
-        puts '# Undocumented:'.bold 
+        puts '# Undocumented:'.red 
         res[:U].each do |item|
           puts "  - #{item}" 
         end

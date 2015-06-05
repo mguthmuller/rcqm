@@ -10,15 +10,15 @@ module Rcqm
     def initialize(*args)
       super(*args)
       puts
-      puts '*********************************************'.blue
-      puts '***************** Statistics ****************'.blue
-      puts '*********************************************'.blue
+      puts '*********************************************'.blue.bold
+      puts '***************** Statistics ****************'.blue.bold
+      puts '*********************************************'.blue.bold
       puts
     end
 
     def check_file(filename)
       puts
-      puts "*** Analyze file #{filename} ***".green
+      puts "*** Analyze file #{filename} ***".magenta
       @lines = File.readlines(filename)
       res = {
         :total => @lines.length,
@@ -47,14 +47,14 @@ module Rcqm
     end
 
     def print_statistics(res)
-      puts "Total lines: #{res[:total]}"
-      puts "Empty lines: #{res[:empty_lines]}"
-      puts "Commented lines: #{res[:comments]}"
-      puts "Lines of code: #{res[:locs]}"
-      puts "Modules: #{res[:modules]}"
-      puts "Classes: #{res[:classes]}"
-      puts "Methods: #{res[:methods]}"
-      puts "Requires: #{res[:requires]}"
+      puts "Total lines:".red + " #{res[:total]}"
+      puts "Empty lines:".red + " #{res[:empty_lines]}"
+      puts "Commented lines:".red + " #{res[:comments]}"
+      puts "Lines of code:".red + " #{res[:locs]}"
+      puts "Modules:".red + " #{res[:modules]}"
+      puts "Classes:".red + " #{res[:classes]}"
+      puts "Methods:".red + " #{res[:methods]}"
+      puts "Requires:".red + " #{res[:requires]}"
     end
 
     def report_result(filename, res)

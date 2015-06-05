@@ -9,9 +9,10 @@ module Rcqm
 
     def initialize(*args)
       super(*args)
-      puts "\n*************************************************".blue
-      puts '***************** Tags matching *****************'.blue
-      puts "*************************************************".blue
+      puts 
+      puts '*************************************************'.blue.bold
+      puts '***************** Tags matching *****************'.blue.bold
+      puts "*************************************************".blue.bold
       puts
     end
     
@@ -34,7 +35,7 @@ module Rcqm
     
     def check_file(filename)
       puts
-      puts "*** Analyze file #{filename} ***".green
+      puts "*** Analyze file #{filename} ***".magenta
       lines = []
       line_num = 0
       pattern = define_regexp
