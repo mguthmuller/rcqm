@@ -63,7 +63,7 @@ Based on [inch] (https://github.com/rrrene/inch) gem
 
 ### Coding style (with '-m coding_style' option)
 
-- Based on [rubocop](https://github.com/bbatsov/rubocop) gem
+- Based on [rubocop] (https://github.com/bbatsov/rubocop) gem
 - Configuration file in config/.rubocop.yml
 - You can include your own rubocop configuration with '-c path/config/file' option
 

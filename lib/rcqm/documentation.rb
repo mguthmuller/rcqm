@@ -1,5 +1,6 @@
 require_relative 'metric.rb'
 require 'json'
+require 'colorize'
 
 module Rcqm
 
@@ -8,14 +9,15 @@ module Rcqm
     def initialize(*args)
       super(*args)
       puts 
-      puts '************************************************'
-      puts '*************** Documentation  rates************'
-      puts '************************************************'
+      puts '*************************************************'.bold.blue
+      puts '*************** Documentation  rates ************'.bold.blue
+      puts '*************************************************'.bold.blue
       puts 
     end
     
     def check_file(filename)
-      puts "== Analyze file #{filename} =="
+      puts
+      puts "*** Analyze file #{filename} ***".magenta
       inch_res = `inch #{filename}`
       results = parse_inch_output(uncolorize(inch_res))
       print_documentation_rates(results)
@@ -73,25 +75,25 @@ module Rcqm
 
     def print_documentation_rates(res)
       unless res[:A].empty?
-        puts '# Good documentation:'
+        puts '# Good documentation:'.bold
         res[:A].each do |item|
           puts "  - #{item}" 
         end
       end
       unless res[:B].empty?
-        puts '# Properly documented, but could be improved:'
+        puts '# Properly documented, but could be improved:'.bold
         res[:B].each do |item|
           puts "  - #{item}" 
         end
       end
       unless res[:C].empty?
-        puts '# Need work:' 
+        puts '# Need work:'.bold 
         res[:C].each do |item|
           puts "  - #{item}" 
         end
       end
       unless res[:U].empty?
-        puts '# Undocumented:' 
+        puts '# Undocumented:'.bold 
         res[:U].each do |item|
           puts "  - #{item}" 
         end

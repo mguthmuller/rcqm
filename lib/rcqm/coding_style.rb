@@ -1,5 +1,6 @@
 require_relative 'metric.rb'
 require 'json'
+require 'colorize'
 
 module Rcqm
 
@@ -8,14 +9,14 @@ module Rcqm
     def initialize(*args)
       super(*args)
       puts 
-      puts '**************************************************'
-      puts '******************* Coding style *****************'
-      puts '**************************************************'
-      puts 
+      puts '**************************************************'.blue.bold
+      puts '******************* Coding style *****************'.blue.bold
+      puts '**************************************************'.blue.bold
     end
 
     def check_file(filename)
-      puts "== Analyze file #{filename} =="
+      puts
+      puts "*** Analyze file #{filename} ***".magenta
       config = (@options[:config].nil?) ? 'config/.rubocop.yml' : @options[:config]
       rubocop_res = `rubocop --format simple -c #{config} #{filename}`
       results = parse_rubocop_output(rubocop_res)
@@ -56,25 +57,25 @@ module Rcqm
 
     def print_offenses(res)
       unless res[:C].empty?
-        puts '# Issues with convention:'
+        puts '# Issues with convention:'.red
         res[:C].each do |item|
           puts "  - #{item}" 
         end
       end
       unless res[:E].empty?
-        puts '# Errors:'
+        puts '# Errors:'.red
         res[:E].each do |item|
           puts "  - #{item}" 
         end
       end
       unless res[:F].empty?
-        puts '# Fatal errors:' 
+        puts '# Fatal errors:'.red 
         res[:F].each do |item|
           puts "  - #{item}" 
         end
       end
       unless res[:W].empty?
-        puts '# Warnings:' 
+        puts '# Warnings:'.red 
         res[:W].each do |item|
           puts "  - #{item}" 
         end

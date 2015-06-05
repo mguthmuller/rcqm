@@ -10,14 +10,15 @@ module Rcqm
     def initialize(*args)
       super(*args)
       puts
-      puts '*********************************************'
-      puts '***************** Statistics ****************'
-      puts '*********************************************'
+      puts '*********************************************'.blue
+      puts '***************** Statistics ****************'.blue
+      puts '*********************************************'.blue
       puts
     end
 
     def check_file(filename)
-      puts "== Analyze file #{filename} =="
+      puts
+      puts "*** Analyze file #{filename} ***".green
       @lines = File.readlines(filename)
       res = {
         :total => @lines.length,

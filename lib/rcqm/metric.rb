@@ -37,7 +37,7 @@ module Rcqm
     end
 
     def check_dir(dirname)
-      puts "==== Analyze directory #{dirname} ===="
+      puts "****** Analyze directory #{dirname} ******".cyan
       Dir.open(dirname).each do |subfile|
         # Exclude '.' and '..' directories 
         next if (subfile.eql? '..') || (subfile.eql? '.')
