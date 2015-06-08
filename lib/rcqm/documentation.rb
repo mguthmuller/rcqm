@@ -18,7 +18,8 @@ module Rcqm
     def check_file(filename)
       puts
       puts "*** Analyze file #{filename} ***".magenta
-      inch_res = `inch #{filename}`
+      Dir.chdir(File.dirname(filename))
+      inch_res = `inch #{File.basename(filename)}`
       results = parse_inch_output(uncolorize(inch_res))
       print_documentation_rates(results)
       report_result(filename, results)
