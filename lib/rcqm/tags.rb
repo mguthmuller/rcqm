@@ -12,8 +12,7 @@ module Rcqm
       puts 
       puts '*************************************************'.blue.bold
       puts '***************** Tags matching *****************'.blue.bold
-      puts "*************************************************".blue.bold
-      puts
+      puts '*************************************************'.blue.bold
     end
     
     def define_regexp
@@ -35,7 +34,7 @@ module Rcqm
     
     def check_file(filename)
       puts
-      puts "*** Analyze file #{filename} ***".magenta
+      puts "*** Analyze file #{filename} ***".green
       lines = []
       line_num = 0
       pattern = define_regexp

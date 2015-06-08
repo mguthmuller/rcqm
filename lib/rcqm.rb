@@ -73,7 +73,8 @@ module Rcqm
           @tags_metric = Tags.new(@options)
           @tags_metric.check
         when 'complexity'
-          $stderr.puts("Complexity metric not implemented yet! Ignore it")
+          @complexity_metric = Complexity.new(@options)
+          @complexity_metric.check
         when 'documentation'
           @documentation_metric = Documentation.new(@options)
           @documentation_metric.check
@@ -88,12 +89,14 @@ module Rcqm
     def check_all
       @coding_style_metric = CodingStyle.new(@options)
       @coding_style_metric.check
+      @complexity_metric = Complexity.new(@options)
+      @complexity_metric.check
+      @documentation_metric = Documentation.new(@options)
+      @documentation_metric.check
       @statistics_metric = Statistics.new(@options)
       @statistics_metric.check
       @tags_metric = Tags.new(@options)
       @tags_metric.check
-      @documentation_metric = Documentation.new(@options)
-      @documentation_metric.check
     end
 
     def run

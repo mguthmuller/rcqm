@@ -52,9 +52,7 @@ module Rcqm
         elsif File.directory?("#{dirname}/#{subfile}")
           check_dir("#{dirname}/#{subfile}")
         else
-          STDERR.puts "#{subfile}: Unknown type of file "\
-                      "#{File.ftype(dirname/subfile)}. Aborted!"
-          exit
+          STDERR.puts "#{subfile}: Unknown type of file. Ignore it!"
         end
       end
     end

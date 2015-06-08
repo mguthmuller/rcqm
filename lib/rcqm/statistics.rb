@@ -13,12 +13,11 @@ module Rcqm
       puts '*********************************************'.blue.bold
       puts '***************** Statistics ****************'.blue.bold
       puts '*********************************************'.blue.bold
-      puts
     end
 
     def check_file(filename)
       puts
-      puts "*** Analyze file #{filename} ***".magenta
+      puts "*** Analyze file #{filename} ***".green
       @lines = File.readlines(filename)
       res = {
         :total => @lines.length,

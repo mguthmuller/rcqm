@@ -16,7 +16,7 @@ module Rcqm
 
     def check_file(filename)
       puts
-      puts "*** Analyze file #{filename} ***".magenta
+      puts "*** Analyze file #{filename} ***".green
       config = (@options[:config].nil?) ? 'config/.rubocop.yml' : @options[:config]
       rubocop_res = `rubocop --format simple -c #{config} #{filename}`
       results = parse_rubocop_output(rubocop_res)

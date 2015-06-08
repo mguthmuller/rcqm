@@ -67,9 +67,12 @@ Based on [inch] (https://github.com/rrrene/inch) gem
 - Configuration file in config/.rubocop.yml
 - You can include your own rubocop configuration with '-c path/config/file' option
 
+### Cyclomatic complexity (with '-m complexity' option)
+
+Based on [flog] (https://github.com/seattlerb/flog)
+
 ### Not implemented yet ...
 - Code Coverage
-- Cyclomatic complexity
 - Dead Code
 - Duplication
 
@@ -80,3 +83,4 @@ Results of each analysis are stored in a json file ('tags.json', 'statistics.jso
 ## Dependancies:
 * [inch] (https://github.com/rrrene/inch)
 * [rubocop](https://github.com/bbatsov/rubocop)
+* [flog] (https://github.com/seattlerb/flog)

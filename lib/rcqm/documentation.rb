@@ -12,14 +12,15 @@ module Rcqm
       puts '*************************************************'.bold.blue
       puts '*************** Documentation  rates ************'.bold.blue
       puts '*************************************************'.bold.blue
-      puts 
     end
     
     def check_file(filename)
       puts
-      puts "*** Analyze file #{filename} ***".magenta
+      puts "*** Analyze file #{filename} ***".green
+      pwd = Dir.pwd
       Dir.chdir(File.dirname(filename))
       inch_res = `inch #{File.basename(filename)}`
+      Dir.chdir(pwd)
       results = parse_inch_output(uncolorize(inch_res))
       print_documentation_rates(results)
       report_result(filename, results)
