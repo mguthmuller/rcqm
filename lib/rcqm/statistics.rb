@@ -15,6 +15,8 @@ module Rcqm
         puts '***************** Statistics ****************'.blue.bold
         puts '*********************************************'.blue.bold
       end
+      @selected_statistics = @options[:stats].split(',') unless @options[:stats].nil?
+      puts @selected_statistics
     end
 
     def check_file(filename)
@@ -49,15 +51,23 @@ module Rcqm
       report_result(filename, res)
     end
 
+    def selected_stat(stat_name)
+      if @options[:stats].nil? || @selected_statistics.include?('all')
+        return true
+      else
+        return @selected_statistics.include?(stat_name)
+      end
+    end
+    
     def print_statistics(res)
-      puts "Total lines:".red + " #{res[:total]}"
-      puts "Empty lines:".red + " #{res[:empty_lines]}"
-      puts "Commented lines:".red + " #{res[:comments]}"
-      puts "Lines of code:".red + " #{res[:locs]}"
-      puts "Modules:".red + " #{res[:modules]}"
-      puts "Classes:".red + " #{res[:classes]}"
-      puts "Methods:".red + " #{res[:methods]}"
-      puts "Requires:".red + " #{res[:requires]}"
+      puts "Total lines:".red + " #{res[:total]}" unless !selected_stat('total')
+      puts "Empty lines:".red + " #{res[:empty_lines]}" unless !selected_stat('empty')
+      puts "Commented lines:".red + " #{res[:comments]}" unless !selected_stat('comments')
+      puts "Lines of code:".red + " #{res[:locs]}" unless !selected_stat('locs')
+      puts "Modules:".red + " #{res[:modules]}" unless !selected_stat('modules')
+      puts "Classes:".red + " #{res[:classes]}" unless !selected_stat('classes')
+      puts "Methods:".red + " #{res[:methods]}" unless !selected_stat('methods')
+      puts "Requires:".red + " #{res[:requires]}" unless !selected_stat('requires')
     end
 
     def report_result(filename, res)
@@ -71,17 +81,15 @@ module Rcqm
         reports = {}
       end
       reports[filename] ||= []
-      reports[filename] << {
-        'Date' => Time.now,
-        'Total lines' => res[:total],
-        'Empty lines' => res[:empty_lines],
-        'Commented lines' => res[:comments],
-        'Lines of code' => res[:locs],
-        'Modules' => res[:modules],
-        'Classes' => res[:classes],
-        'Methods' => res[:methods],
-        'Requires' => res[:requires]
-      }
+      new_hash = {'Date' => Time.now}
+      new_hash['Total lines'] = res[:total] unless !selected_stat('total')
+      new_hash['Empty lines'] = res[:empty_lines] unless !selected_stat('empty')
+      new_hash['Commented lines'] = res[:comments] unless !selected_stat('comments')
+      new_hash['Lines of code'] = res[:locs] unless !selected_stat('locs')
+      new_hash['Modules'] = res[:modules] unless !selected_stat('modules')
+      new_hash['Classes'] = res[:classes] unless !selected_stat('classes')
+      new_hash['Requires'] = res[:methods] unless !selected_stat('methods')
+      reports[filename] << new_hash
       File.open('reports/statistics.json', 'w') do |fd|
         fd.puts(JSON.pretty_generate(reports))
       end
