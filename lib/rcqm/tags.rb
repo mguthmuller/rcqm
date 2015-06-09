@@ -9,10 +9,12 @@ module Rcqm
 
     def initialize(*args)
       super(*args)
-      puts 
-      puts '*************************************************'.blue.bold
-      puts '***************** Tags matching *****************'.blue.bold
-      puts '*************************************************'.blue.bold
+      if !@options[:quiet]
+        puts 
+        puts '*************************************************'.blue.bold
+        puts '***************** Tags matching *****************'.blue.bold
+        puts '*************************************************'.blue.bold
+      end
     end
     
     def define_regexp
@@ -33,33 +35,35 @@ module Rcqm
     end
     
     def check_file(filename)
-      puts
-      puts "*** Analyze file #{filename} ***".green
+      if !@options[:quiet]
+        puts
+        puts "*** Analyze file #{filename} ***".green
+      end
       lines = []
       line_num = 0
       pattern = define_regexp
       File.open(filename, 'r') do |file|
         file.each_line do |line|
           line_num += 1
-          lines << [filename, line_num, line] if line =~ /#{pattern}/i
+          lines << [line_num, line] if line =~ /#{pattern}/i
         end
       end
       report_result(filename, lines)
-      print_tags(lines)
+      print_tags(lines) unless @options[:quiet]
       lines
     end
 
     def print_tags(res)
-      res.each do |filename, line_num, line|
-        puts "#{filename}(#{line_num}): #{line.strip}"
+      res.each do |line_num, line|
+        puts "Line #{line_num}: #{line.strip}"
       end
     end
 
     def format_result(res)
       return nil if res.empty?
       result = []
-      res.each do |filename, line_num, line|
-        result << "#{filename}(#{line_num}): #{line.strip}"
+      res.each do |line_num, line|
+        result << "Line #{line_num}: #{line.strip}"
       end
       result
     end
@@ -78,7 +82,7 @@ module Rcqm
       reports[filename] << {
         'Date' => Time.now,
         'Total' => res.length,
-        'Output' => format_result(res)
+        'Tags' => format_result(res)
       }
       File.open('reports/tags.json', 'w') do |fd|
         fd.puts(JSON.pretty_generate(reports))

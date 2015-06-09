@@ -37,8 +37,10 @@ module Rcqm
     end
 
     def check_dir(dirname)
-      puts
-      puts "****** Analyze directory #{dirname} ******".cyan
+      if !@options[:quiet]
+        puts
+        puts "****** Analyze directory #{dirname} ******".cyan
+      end
       Dir.open(dirname).each do |subfile|
         # Exclude '.' and '..' directories 
         next if (subfile.eql? '..') || (subfile.eql? '.')
@@ -52,7 +54,7 @@ module Rcqm
         elsif File.directory?("#{dirname}/#{subfile}")
           check_dir("#{dirname}/#{subfile}")
         else
-          STDERR.puts "#{subfile}: Unknown type of file. Ignore it!"
+          $stderr.puts "#{subfile}: Unknown type of file. Ignore it!"
         end
       end
     end
@@ -78,7 +80,7 @@ module Rcqm
         elsif File.directory?(filename)
           check_dir(filename)
         else
-          STDERR.puts "#{filename}: Unknown type of file "\
+          $stderr.puts "#{filename}: Unknown type of file "\
                       "#{File.ftype(filename)} . Aborted!"
           exit
         end

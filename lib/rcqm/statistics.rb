@@ -9,15 +9,19 @@ module Rcqm
 
     def initialize(*args)
       super(*args)
-      puts
-      puts '*********************************************'.blue.bold
-      puts '***************** Statistics ****************'.blue.bold
-      puts '*********************************************'.blue.bold
+      if !@options[:quiet]
+        puts
+        puts '*********************************************'.blue.bold
+        puts '***************** Statistics ****************'.blue.bold
+        puts '*********************************************'.blue.bold
+      end
     end
 
     def check_file(filename)
-      puts
-      puts "*** Analyze file #{filename} ***".green
+      if !@options[:quiet]
+        puts
+        puts "*** Analyze file #{filename} ***".green
+      end
       @lines = File.readlines(filename)
       res = {
         :total => @lines.length,
@@ -41,7 +45,7 @@ module Rcqm
           end
         end
       end
-      print_statistics(res)
+      print_statistics(res) unless @options[:quiet]
       report_result(filename, res)
     end
 

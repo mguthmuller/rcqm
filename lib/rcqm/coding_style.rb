@@ -8,19 +8,23 @@ module Rcqm
 
     def initialize(*args)
       super(*args)
-      puts 
-      puts '**************************************************'.blue.bold
-      puts '******************* Coding style *****************'.blue.bold
-      puts '**************************************************'.blue.bold
+      if !@options[:quiet]
+        puts 
+        puts '**************************************************'.blue.bold
+        puts '******************* Coding style *****************'.blue.bold
+        puts '**************************************************'.blue.bold
+      end
     end
 
     def check_file(filename)
-      puts
-      puts "*** Analyze file #{filename} ***".green
+      if !@options[:quiet]
+        puts
+        puts "*** Analyze file #{filename} ***".green
+      end
       config = (@options[:config].nil?) ? 'config/.rubocop.yml' : @options[:config]
       rubocop_res = `rubocop --format simple -c #{config} #{filename}`
       results = parse_rubocop_output(rubocop_res)
-      print_offenses(results)
+      print_offenses(results) unless @options[:quiet]
       report_result(filename, results)
     end
 

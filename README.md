@@ -15,6 +15,7 @@ rcqm [options]
 - -t, --tags=TAGS                  List of tags to evaluate (separate with ',')
 - -s, --statistics=STATISTICS      List of statistics to evaluate (separate with ',')
 - -c, --config=CONFIG_FILE         Upload your own rubocop configuration file
+- -q, --quiet                      Disable result display
 ```
 
 ## Metrics names:

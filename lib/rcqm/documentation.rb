@@ -8,21 +8,25 @@ module Rcqm
 
     def initialize(*args)
       super(*args)
-      puts 
-      puts '*************************************************'.bold.blue
-      puts '*************** Documentation  rates ************'.bold.blue
-      puts '*************************************************'.bold.blue
+      if !@options[:quiet]
+        puts 
+        puts '*************************************************'.bold.blue
+        puts '*************** Documentation  rates ************'.bold.blue
+        puts '*************************************************'.bold.blue
+      end
     end
     
     def check_file(filename)
-      puts
-      puts "*** Analyze file #{filename} ***".green
+      if !@options[:quiet]
+        puts
+        puts "*** Analyze file #{filename} ***".green
+      end
       pwd = Dir.pwd
       Dir.chdir(File.dirname(filename))
       inch_res = `inch #{File.basename(filename)}`
       Dir.chdir(pwd)
       results = parse_inch_output(uncolorize(inch_res))
-      print_documentation_rates(results)
+      print_documentation_rates(results) unless @options[:quiet]
       report_result(filename, results)
     end
 

@@ -10,18 +10,22 @@ module Rcqm
 
     def initialize(*args)
       super(*args)
-      puts
-      puts '*********************************************'.blue.bold
-      puts '***************** Complexity ****************'.blue.bold
-      puts '*********************************************'.blue.bold
+      if !@options[:quiet]
+        puts
+        puts '*********************************************'.blue.bold
+        puts '***************** Complexity ****************'.blue.bold
+        puts '*********************************************'.blue.bold
+      end
     end
 
     def check_file(filename)
-      puts
-      puts "*** Analyze file #{filename} ***".green
+      if !@options[:quiet]
+        puts
+        puts "*** Analyze file #{filename} ***".green
+      end
       flog_res = `flog -abcm #{filename}`
       results = parse_flog_output(flog_res)
-      print_complexity_scores(results)
+      print_complexity_scores(results) unless @options[:quiet]
       report_result(filename, results)
     end
 
