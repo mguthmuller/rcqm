@@ -48,7 +48,7 @@ module Rcqm
         end
       end
       print_statistics(res) unless @options[:quiet]
-      report_result(filename, res)
+      report_result(filename, res) unless !@options[:report]
     end
 
     def selected_stat(stat_name)

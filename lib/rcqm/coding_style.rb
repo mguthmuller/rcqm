@@ -25,7 +25,7 @@ module Rcqm
       rubocop_res = `rubocop --format simple -c #{config} #{filename}`
       results = parse_rubocop_output(rubocop_res)
       print_offenses(results) unless @options[:quiet]
-      report_result(filename, results)
+      report_result(filename, results) unless !@options[:report]
     end
 
     def parse_rubocop_output(output)

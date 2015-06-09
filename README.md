@@ -16,6 +16,7 @@ rcqm [options]
 -s, --statistics=STATISTICS      List of statistics to evaluate (separate with ',')
 -c, --config=CONFIG_FILE         Upload your own rubocop configuration file
 -q, --quiet                      Disable result display
+-n --no_report                   Disable reporting
 ```
 
 ## Metrics names:

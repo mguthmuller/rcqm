@@ -27,7 +27,7 @@ module Rcqm
       Dir.chdir(pwd)
       results = parse_inch_output(uncolorize(inch_res))
       print_documentation_rates(results) unless @options[:quiet]
-      report_result(filename, results)
+      report_result(filename, results) unless !@options[:report]
     end
 
     def parse_inch_output(output)

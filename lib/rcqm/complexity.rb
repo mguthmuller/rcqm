@@ -26,7 +26,7 @@ module Rcqm
       flog_res = `flog -abcm #{filename}`
       results = parse_flog_output(flog_res)
       print_complexity_scores(results) unless @options[:quiet]
-      report_result(filename, results)
+      report_result(filename, results) unless !@options[:report]
     end
 
     def parse_flog_output(output)

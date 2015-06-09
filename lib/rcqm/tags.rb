@@ -48,7 +48,7 @@ module Rcqm
           lines << [line_num, line] if line =~ /#{pattern}/i
         end
       end
-      report_result(filename, lines)
+      report_result(filename, lines) unless !@options[:report]
       print_tags(lines) unless @options[:quiet]
       lines
     end
