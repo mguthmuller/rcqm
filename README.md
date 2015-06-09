@@ -80,7 +80,8 @@ Based on [flog] (https://github.com/seattlerb/flog)
 
 ## Analysis reporting
 
-Results of each analysis are stored in a json file ('tags.json', 'statistics.json', ...)  in 'reports' directory
+- Results of each analysis are stored in a json file ('tags.json', 'statistics.json', ...)  in 'reports' directory
+- You can disable it with '-n' option
 
 ## Dependancies:
 * [inch] (https://github.com/rrrene/inch)
