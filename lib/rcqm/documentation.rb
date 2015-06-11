@@ -96,9 +96,10 @@ module Rcqm
           puts "  - #{item}" 
         end
       end
-       if (@options[:dev]) && (!res[:B].empty? || !res[:C].empty? || !res[:U].empty?)
-          puts
-          puts "=== #{filename} ===".bold
+      if (@options[:dev]) &&
+         (!res[:B].empty? || !res[:C].empty? || !res[:U].empty?)
+        puts
+        puts "=== #{filename} ===".bold
       end
       unless res[:B].empty?
         puts '# Properly documented, but could be improved:'.yellow

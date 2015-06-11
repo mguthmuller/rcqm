@@ -20,13 +20,16 @@ module Rcqm
       @options[:quiet] = false
       @options[:report] = true
       @options[:dev] = false
-      @options[:config] = "#{File.expand_path(File.join(File.dirname(__FILE__), ".."))}/config/.rubocop.yml"
+      @options[:config] =
+        "#{File.expand_path(File.join(File.dirname(__FILE__), ".."))}"\
+        '/config/.rubocop.yml'
       optparse = OptionParser.new do |opts|
         # Usage
         opts.banner = 'Usage: rcqm [options]'
         # Define specific files to analyze
         opts.on('-fFILES', '--files=FILES',
-                'List of specific files to analyze (separate with \',\')') do |x|
+                'List of specific files to analyze '\
+                '(separate with \',\')') do |x|
           @options[:files] = x
         end
         # Exclude specific files from analysis

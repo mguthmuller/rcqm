@@ -80,7 +80,7 @@ module Rcqm
       critical_scores = 0
       unless @options[:dev]
         puts 'Complexity'.rjust(10) + ' | ' + 'Method name'.ljust(50)
-        puts '-------------------------------------------------------------------'
+        puts '-----------------------------------------------------------------'
       end
       scores[:per_method].each do |res|
         if res[:complexity].to_i > 60
@@ -88,7 +88,7 @@ module Rcqm
             puts
             puts "=== #{filename} ===".bold
             puts 'Complexity'.rjust(10) + ' | ' + 'Method name'.ljust(50)
-            puts '-------------------------------------------------------------------'
+            puts '-------------------------------------------------------------'
           end
           critical_scores += 1
           puts "#{res[:complexity].rjust(10).red} | #{res[:method].red}"
@@ -97,7 +97,7 @@ module Rcqm
             puts
             puts "=== #{filename} ===".bold
             puts 'Complexity'.rjust(10) + ' | ' + 'Method name'.ljust(50)
-            puts '-------------------------------------------------------------------'
+            puts '--------------------------------------------------------------'
           end
           critical_scores += 1
           puts "#{res[:complexity].rjust(10).yellow} | #{res[:method].yellow}"
@@ -108,7 +108,7 @@ module Rcqm
         end
       end
       unless @options[:dev]
-        puts '-------------------------------------------------------------------'
+        puts '------------------------------------------------------------------'
         puts "#{scores[:total]}".rjust(10) + ' | ' + 'Total'
       end
     end
