@@ -116,8 +116,10 @@ module Rcqm
       @complexity_metric.check('Complexity')
       @documentation_metric = Documentation.new(@options)
       @documentation_metric.check('Documentation')
-      @statistics_metric = Statistics.new(@options)
-      @statistics_metric.check('Statistics')
+      unless @options[:dev]
+        @statistics_metric = Statistics.new(@options)
+        @statistics_metric.check('Statistics')
+      end
       @tags_metric = Tags.new(@options)
       @tags_metric.check('Tags tracking')
     end
