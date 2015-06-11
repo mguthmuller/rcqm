@@ -25,27 +25,27 @@ module Rcqm
         opts.banner = 'Usage: rcqm [options]'
         # Define specific files to analyze
         opts.on('-fFILES', '--files=FILES',
-                'List of specific files to analyze (separate with ',')') do |x|
+                'List of specific files to analyze (separate with \',\')') do |x|
           @options[:files] = x
         end
         # Exclude specific files from analysis
         opts.on('-eFILES', '--exclude=FILES',
-                'Exclude files from analysis (separate with ',')') do |x|
+                'Exclude files from analysis (separate with \',\')') do |x|
           @options[:exclude] = x.to_s
         end
         # Define specific metrics
         opts.on('-mMETRICS', '--metrics=METRICS',
-                'List of metrics to evaluate (separate with ',')') do |x|
+                'List of metrics to evaluate (separate with \',\')') do |x|
           @options[:metrics] = x
         end
         # Define specific tags to check
         opts.on('-tTAGS', '--tags=TAGS',
-                'List of tags to evaluate (separate with ',')') do |x|
+                'List of tags to evaluate (separate with \',\')') do |x|
           @options[:tags] = x
         end
         # Define specific tags to check
         opts.on('-sSTATISTICS', '--statistics=STATISTICS',
-                'List of statistics to evaluate (separate with ',')') do |x|
+                'List of statistics to evaluate (separate with \',\')') do |x|
           @options[:stats] = x
         end
         # Upload your own rubocop configuration file
