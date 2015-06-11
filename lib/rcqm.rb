@@ -19,7 +19,7 @@ module Rcqm
       @options[:metrics] = 'all'
       @options[:quiet] = false
       @options[:report] = true
-      @options[:config] = 'config/.rubocop.yml'
+      @options[:config] = "#{File.expand_path(File.join(File.dirname(__FILE__), ".."))}/config/.rubocop.yml"
       optparse = OptionParser.new do |opts|
         # Usage
         opts.banner = 'Usage: rcqm [options]'
