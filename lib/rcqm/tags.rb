@@ -1,64 +1,78 @@
 require_relative 'metric.rb'
 require 'json'
 
-# TODO : test
-
+#  Rcqm module
 module Rcqm
 
+  # Tags class, herited from metric class
   class Tags < Rcqm::Metric
 
+    # Constructor
+    # @param args [Hash] Hash containing options values 
     def initialize(*args)
+      # Get options values
       super(*args)
-      if !@options[:quiet]
+      # Quiet mode disable
+      unless @options[:quiet]
         puts 
-        puts '*************************************************'.blue.bold
-        puts '***************** Tags matching *****************'.blue.bold
-        puts '*************************************************'.blue.bold
+        puts '***********************************************************'.bold
+        puts '********************** Tags matching **********************'.bold
+        puts '***********************************************************'.bold
       end
     end
-    
+
+    # Define tags to track, including tags added on command line
+    # @return [String] regexp pattern
     def define_regexp
+      # Default pattern if there is no tags specified on command line
       if @options[:tags].nil?
-        return 'TODO|FIXME'
+        pattern = 'TODO|FIXME'
       else
+        # Parse defined tags on command line
         pattern = ''
         tags_names = @options[:tags].split(',')
         tags_names.each do |tag_name|
-          if pattern.empty?
-            pattern << "#{tag_name}"
-          else
-            pattern << "|#{tag_name}"
-          end
+          pattern << (pattern.empty?) ?  "#{tag_name}" : "|#{tag_name}"
         end
-        return pattern
       end
+      pattern
     end
-    
+
+    # Analyze each individual file, looking for lines containing defined tags
+    # @param filename [String] The path of the file to analyze
     def check_file(filename)
-      if !@options[:quiet]
-        puts
-        puts "*** Analyze file #{filename} ***".green
-      end
-      lines = []
+      lines = [] 
       line_num = 0
+      # Get tags to search in file
       pattern = define_regexp
+      # Read lines of file
       File.open(filename, 'r') do |file|
         file.each_line do |line|
           line_num += 1
           lines << [line_num, line] if line =~ /#{pattern}/i
         end
       end
-      report_result(filename, lines) unless !@options[:report]
-      print_tags(lines) unless @options[:quiet]
-      lines
+      # Report results in json file
+      report_results(filename, lines, 'tags') if @options[:report]
+      # Print results if required
+      unless @options[:quiet] || lines.empty?
+        puts
+        puts "=== #{filename} ===".bold
+        print_tags(lines)
+      end
     end
 
+    # Print formatted tags tracking result
+    # @param res [Array] Results array
     def print_tags(res)
       res.each do |line_num, line|
         puts "Line #{line_num}: #{line.strip}"
       end
     end
 
+    # Format tags result
+    # @param res [Array] Results array
+    # @return [Array] Formatted results array
     def format_result(res)
       return nil if res.empty?
       result = []
@@ -68,25 +82,17 @@ module Rcqm
       result
     end
 
-    def report_result(filename,res)
-      # Create dir 'reports' if it does not exist yet
-      Dir.mkdir('reports', 0755) unless Dir.exist?('reports') 
-      
-      # Store analysis results
-      if File.exist?('reports/tags.json')
-        reports = JSON.parse(IO.read('reports/tags.json'))
-      else
-        reports = {}
-      end
+    # Append new results in the json file
+    # @param reports [Array] Previous results
+    # @param filename [String] Name/Path of the analyzed file
+    # @param res [Hash] Hash containing the new results to append
+    def append_results(reports, filename, res)
       reports[filename] ||= []
       reports[filename] << {
         'Date' => Time.now,
         'Total' => res.length,
         'Tags' => format_result(res)
       }
-      File.open('reports/tags.json', 'w') do |fd|
-        fd.puts(JSON.pretty_generate(reports))
-      end
     end
       
   end

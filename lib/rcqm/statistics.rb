@@ -1,29 +1,29 @@
 require_relative 'metric.rb'
 require 'json'
 
-# TODO : test
-
+# Rcqm main module
 module Rcqm
 
+  # Statistics class, herited from Metric class
   class Statistics < Rcqm::Metric
 
+    # Constructor
+    # @param args [Hash] Hash containing options values 
     def initialize(*args)
       super(*args)
-      if !@options[:quiet]
+      unless @options[:quiet]
         puts
-        puts '*********************************************'.blue.bold
-        puts '***************** Statistics ****************'.blue.bold
-        puts '*********************************************'.blue.bold
+        puts '************************************************************'.bold
+        puts '************************ Statistics ************************'.bold
+        puts '************************************************************'.bold
       end
-      @selected_statistics = @options[:stats].split(',') unless @options[:stats].nil?
-      puts @selected_statistics
+      @selected_statistics =
+        @options[:stats].split(',') unless @options[:stats].nil?
     end
 
+    # Get statistics about file given in paramater
+    # @param filename [String] The path of the file to analyze
     def check_file(filename)
-      if !@options[:quiet]
-        puts
-        puts "*** Analyze file #{filename} ***".green
-      end
       @lines = File.readlines(filename)
       res = {
         :total => @lines.length,
@@ -47,10 +47,18 @@ module Rcqm
           end
         end
       end
-      print_statistics(res) unless @options[:quiet]
-      report_result(filename, res) unless !@options[:report]
+      unless @options[:quiet]
+        puts
+        puts "=== #{filename} ===".bold
+        print_statistics(res)
+      end
+      # Report results in the json file
+      report_results(filename, res, 'statistics') if @options[:report]
     end
 
+    # Check if statistic given in parameter is included
+    # in the list of statistics to analyze
+    # @param stat_name [String] Name of statistics
     def selected_stat(stat_name)
       if @options[:stats].nil? || @selected_statistics.include?('all')
         return true
@@ -58,43 +66,36 @@ module Rcqm
         return @selected_statistics.include?(stat_name)
       end
     end
-    
+
+    # Print statistics analysis results
+    # @param res [Hash] Hash containing results
     def print_statistics(res)
-      puts "Total lines:".red + " #{res[:total]}" unless !selected_stat('total')
-      puts "Empty lines:".red + " #{res[:empty_lines]}" unless !selected_stat('empty')
-      puts "Commented lines:".red + " #{res[:comments]}" unless !selected_stat('comments')
-      puts "Lines of code:".red + " #{res[:locs]}" unless !selected_stat('locs')
-      puts "Modules:".red + " #{res[:modules]}" unless !selected_stat('modules')
-      puts "Classes:".red + " #{res[:classes]}" unless !selected_stat('classes')
-      puts "Methods:".red + " #{res[:methods]}" unless !selected_stat('methods')
-      puts "Requires:".red + " #{res[:requires]}" unless !selected_stat('requires')
+      puts "Total lines: #{res[:total]}" if selected_stat('total')
+      puts "Empty lines: #{res[:empty_lines]}" if selected_stat('empty')
+      puts "Commented lines: #{res[:comments]}" if selected_stat('comments')
+      puts "Lines of code: #{res[:locs]}" if selected_stat('locs')
+      puts "Modules: #{res[:modules]}" if selected_stat('modules')
+      puts "Classes: #{res[:classes]}" if selected_stat('classes')
+      puts "Methods: #{res[:methods]}" if selected_stat('methods')
+      puts "Requires: #{res[:requires]}" if selected_stat('requires')
     end
 
-    def report_result(filename, res)
-      # Create dir 'reports' if it does not exist yet
-      Dir.mkdir('reports', 0755) unless Dir.exist?('reports')
-      
-      # Store analysis results
-      if File.exist?('reports/statistics.json')
-        reports = JSON.parse(IO.read('reports/statistics.json'))
-      else
-        reports = {}
-      end
+    # Append new results in the json file
+    # @param reports [Array] Previous results
+    # @param filename [String] Name/Path of the analyzed file
+    # @param res [Hash] Hash containing the new results to append
+    def append_results(reports, filename, res)
       reports[filename] ||= []
       new_hash = {'Date' => Time.now}
-      new_hash['Total lines'] = res[:total] unless !selected_stat('total')
-      new_hash['Empty lines'] = res[:empty_lines] unless !selected_stat('empty')
-      new_hash['Commented lines'] = res[:comments] unless !selected_stat('comments')
-      new_hash['Lines of code'] = res[:locs] unless !selected_stat('locs')
-      new_hash['Modules'] = res[:modules] unless !selected_stat('modules')
-      new_hash['Classes'] = res[:classes] unless !selected_stat('classes')
-      new_hash['Requires'] = res[:methods] unless !selected_stat('methods')
+      new_hash['Total lines'] = res[:total] if selected_stat('total')
+      new_hash['Empty lines'] = res[:empty_lines] if selected_stat('empty')
+      new_hash['Commented lines'] = res[:comments] if selected_stat('comments')
+      new_hash['Lines of code'] = res[:locs] if selected_stat('locs')
+      new_hash['Modules'] = res[:modules] if selected_stat('modules')
+      new_hash['Classes'] = res[:classes] if selected_stat('classes')
+      new_hash['Requires'] = res[:methods] if selected_stat('methods')
       reports[filename] << new_hash
-      File.open('reports/statistics.json', 'w') do |fd|
-        fd.puts(JSON.pretty_generate(reports))
-      end
     end
-    
   end
 
 end

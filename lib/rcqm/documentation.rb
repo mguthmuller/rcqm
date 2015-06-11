@@ -2,34 +2,47 @@ require_relative 'metric.rb'
 require 'json'
 require 'colorize'
 
+#  Rcqm module
 module Rcqm
 
+  # Documentation class, herited from metric class
   class Documentation < Rcqm::Metric
 
+    # Constructor
+    # @param args [Hash] Hash containing options values 
     def initialize(*args)
       super(*args)
-      if !@options[:quiet]
+      unless @options[:quiet]
         puts 
-        puts '*************************************************'.bold.blue
-        puts '*************** Documentation  rates ************'.bold.blue
-        puts '*************************************************'.bold.blue
+        puts '***********************************************************'.bold
+        puts '******************* Documentation rates *******************'.bold
+        puts '***********************************************************'.bold
       end
-    end
-    
-    def check_file(filename)
-      if !@options[:quiet]
-        puts
-        puts "*** Analyze file #{filename} ***".green
-      end
-      pwd = Dir.pwd
-      Dir.chdir(File.dirname(filename))
-      inch_res = `inch #{File.basename(filename)}`
-      Dir.chdir(pwd)
-      results = parse_inch_output(uncolorize(inch_res))
-      print_documentation_rates(results) unless @options[:quiet]
-      report_result(filename, results) unless !@options[:report]
     end
 
+    # Launch `inch` one the file given in parameter and report results
+    # @param filename [String] The path of the file to analyze
+    def check_file(filename)
+      pwd = Dir.pwd
+      Dir.chdir(File.dirname(filename))
+      inch_res = `inch list --all #{File.basename(filename)}`
+      Dir.chdir(pwd)
+      results = parse_inch_output(uncolorize(inch_res))
+      unless @options[:quiet] ||
+             (results[:A].empty? &&
+              results[:B].empty? &&
+              results[:C].empty? &&
+              results[:U].empty?)
+        puts
+        puts "=== #{filename} ===".bold
+        print_documentation_rates(results)
+      end
+      report_results(filename, results, 'documentation') if @options[:report]
+    end
+
+    # Parse and format output returned by inch
+    # @param output [String] Inch output
+    # @return grades [Hash] Inch output formatted
     def parse_inch_output(output)
       grades = {
         :A => [],
@@ -56,16 +69,11 @@ module Rcqm
       grades
     end
 
-    def report_result(filename, res)
-      # Create dir 'reports' if it does not exist yet
-      Dir.mkdir('reports', 0755)  unless Dir.exist?('reports')
-      
-      # Store analysis results
-      if File.exist?('reports/documentation.json')
-        reports = JSON.parse(IO.read('reports/documentation.json'))
-      else
-        reports = {}
-      end
+    # Append new results in the json file
+    # @param reports [Array] Previous results
+    # @param filename [String] Name/Path of the analyzed file
+    # @param res [Hash] Hash containing the new results to append
+    def append_results(reports, filename, res)
       reports[filename] ||= []
       reports[filename] << {
         'Date' => Time.now,
@@ -74,20 +82,19 @@ module Rcqm
         'Need work documentation' => (res[:C].empty?) ? nil : res[:C],
         'Undocumented' => (res[:U].empty?) ? nil : res[:U]
       }
-      File.open('reports/documentation.json', 'w') do |fd|
-        fd.puts(JSON.pretty_generate(reports))
-      end
     end
 
+    # Print formatted results of documentation rates
+    # @param res [Hash] Hash containing the results to print
     def print_documentation_rates(res)
       unless res[:A].empty?
-        puts '# Good documentation:'.red
+        puts '# Good documentation:'.green
         res[:A].each do |item|
           puts "  - #{item}" 
         end
       end
       unless res[:B].empty?
-        puts '# Properly documented, but could be improved:'.red
+        puts '# Properly documented, but could be improved:'.yellow
         res[:B].each do |item|
           puts "  - #{item}" 
         end
@@ -99,7 +106,7 @@ module Rcqm
         end
       end
       unless res[:U].empty?
-        puts '# Undocumented:'.red 
+        puts '# Undocumented:'.magenta
         res[:U].each do |item|
           puts "  - #{item}" 
         end

@@ -6,16 +6,20 @@ require_relative 'rcqm/tags.rb'
 require_relative 'rcqm/complexity.rb'
 require_relative 'rcqm/documentation.rb'
 
+# Rcqm module
 module Rcqm
 
+  # Rcqm class, corresponding object used in rcqm executable script 
   class Rcqm
 
-    def initialize(_args)
+    # Constructor
+    def initialize
       @options = {}
       # Default values
       @options[:metrics] = 'all'
       @options[:quiet] = false
       @options[:report] = true
+      @options[:config] = 'config/.rubocop.yml'
       optparse = OptionParser.new do |opts|
         # Usage
         opts.banner = 'Usage: rcqm [options]'
@@ -67,60 +71,55 @@ module Rcqm
       end
     end
 
-    def start_checks
+    # Launch individual checks for each metric specified in command line
+    def individual_checks
       metrics = @options[:metrics].split(',')
-      metrics.each do |metric_name|
-        case metric_name
-        when 'coverage'
-          $stderr.puts("Coverage metric not implemented yet! Ignore it")
-        when 'coding_style'
-          @coding_style_metric = CodingStyle.new(@options)
-          @coding_style_metric.check
-          puts 'Coding style done'
-        when 'statistics'
-          @statistics_metric = Statistics.new(@options)
-          @statistics_metric.check
-          puts 'Statistics done'
-        when 'tags'
-          @tags_metric = Tags.new(@options)
-          @tags_metric.check
-          puts 'Tags tracking done'
-        when 'complexity'
-          @complexity_metric = Complexity.new(@options)
-          @complexity_metric.check
-          puts 'Complexity done'
-        when 'documentation'
-          @documentation_metric = Documentation.new(@options)
-          @documentation_metric.check
-          puts 'Documentation done'
-        when 'all'
-          check_all
-        else
-          $stderr.puts "#{metric_name}: Unknown metric. Ignore it."
+      if metrics.include?('all')
+        all_checks
+      else
+        metrics.each do |metric_name|
+          case metric_name
+          when 'coverage'
+            $stderr.puts('Coverage metric not implemented yet! Ignore it')
+          when 'coding_style'
+            @coding_style_metric = CodingStyle.new(@options)
+            @coding_style_metric.check('Coding style')
+          when 'statistics'
+            @statistics_metric = Statistics.new(@options)
+            @statistics_metric.check('Statistics')
+          when 'tags'
+            @tags_metric = Tags.new(@options)
+            @tags_metric.check('Tags tracking')
+          when 'complexity'
+            @complexity_metric = Complexity.new(@options)
+            @complexity_metric.check('Complexity')
+          when 'documentation'
+            @documentation_metric = Documentation.new(@options)
+            @documentation_metric.check('Documentation')
+          else
+            $stderr.puts "#{metric_name}: Unknown metric. Ignore it."
+          end
         end
       end
     end
 
-    def check_all
+    # Launch checks for all metrics 
+    def all_checks
       @coding_style_metric = CodingStyle.new(@options)
-      @coding_style_metric.check
-      puts "Coding style done"
+      @coding_style_metric.check('Coding style')
       @complexity_metric = Complexity.new(@options)
-      @complexity_metric.check
-      puts "Complexity done"
+      @complexity_metric.check('Complexity')
       @documentation_metric = Documentation.new(@options)
-      @documentation_metric.check
-      puts "Documentation done"
+      @documentation_metric.check('Documentation')
       @statistics_metric = Statistics.new(@options)
-      @statistics_metric.check
-      puts "Statistics done"
+      @statistics_metric.check('Statistics')
       @tags_metric = Tags.new(@options)
-      @tags_metric.check
-      puts "Tags tracking done"
+      @tags_metric.check('Tags tracking')
     end
 
+    # Run metric checks
     def run
-      start_checks
+      individual_checks
     end
     
   end

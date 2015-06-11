@@ -259,13 +259,6 @@ Style/MultilineIfThen:
   StyleGuide: 'https://github.com/bbatsov/ruby-style-guide#no-then'
   Enabled: true
 
-Style/MultilineOperationIndentation:
-  Description: >-
-                 Checks indentation of binary operations that span more than
-                 one line.
-  Enabled: true
-  EnforcedStyle: aligned
-
 Style/MultilineTernaryOperator:
   Description: >-
                  Avoid multi-line ?: (the ternary operator);
@@ -837,6 +830,13 @@ Style/MissingElse:
     - if
     - case
     - both
+
+Style/MultilineOperationIndentation:
+  Description: >-
+                 Checks indentation of binary operations that span more than
+                 one line.
+  Enabled: false
+  EnforcedStyle: indented
 
 Style/Next:
   Description: 'Use `next` to skip iteration instead of a condition at the end.'

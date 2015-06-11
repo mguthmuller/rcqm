@@ -2,4 +2,4 @@
 
 require_relative '../lib/rcqm'
 
-Rcqm::Rcqm.new(ARGV).run
+Rcqm::Rcqm.new.run

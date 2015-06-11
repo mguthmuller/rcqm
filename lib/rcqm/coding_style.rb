@@ -1,33 +1,48 @@
+# coding: utf-8
 require_relative 'metric.rb'
 require 'json'
 require 'colorize'
 
+# Rcqm main module
 module Rcqm
 
+  # CodingStyle class, herited from Metric class
   class CodingStyle < Rcqm::Metric
 
+    # Constructor
+    # @param args [Hash] Hash containing options values 
     def initialize(*args)
       super(*args)
-      if !@options[:quiet]
+      unless @options[:quiet]
         puts 
-        puts '**************************************************'.blue.bold
-        puts '******************* Coding style *****************'.blue.bold
-        puts '**************************************************'.blue.bold
+        puts '************************************************************'.bold
+        puts '*********************** Coding style ***********************'.bold
+        puts '************************************************************'.bold
       end
     end
 
+    # Check coding style with rubocop on file given in parameter
+    # @param filename [String] The path to the file to analyze
     def check_file(filename)
-      if !@options[:quiet]
-        puts
-        puts "*** Analyze file #{filename} ***".green
-      end
-      config = (@options[:config].nil?) ? 'config/.rubocop.yml' : @options[:config]
-      rubocop_res = `rubocop --format simple -c #{config} #{filename}`
+      # set output format to 'simple' (easier to parse) and
+      # include rubocop configuration file
+      rubocop_res = `rubocop -f simple -c #{@options[:config]} #{filename}`
       results = parse_rubocop_output(rubocop_res)
-      print_offenses(results) unless @options[:quiet]
-      report_result(filename, results) unless !@options[:report]
+      unless (results[:C].empty? &&
+              results[:E].empty? &&
+              results[:F].empty? &&
+              results[:W].empty?) ||
+             @options[:quiet]
+        puts
+        puts "=== #{filename} ===".bold
+        print_offenses(results)
+      end
+      # Report results in a json file
+      report_results(filename, results, 'coding_style') if @options[:report]
     end
 
+    # Parse rubocop output to extract line, column, message and the offense type
+    # @param output [String] Rubocop output
     def parse_rubocop_output(output)
       offenses = {
         :C => [],
@@ -59,6 +74,8 @@ module Rcqm
       offenses
     end
 
+    # Print formatted rubocop results
+    # @param res [Hash] Hash containing rubocop results
     def print_offenses(res)
       unless res[:C].empty?
         puts '# Issues with convention:'.red
@@ -86,16 +103,11 @@ module Rcqm
       end
     end
 
-    def report_result(filename, res)
-     # Create dir 'reports' if it does not exist yet
-      Dir.mkdir('reports', 0755) unless Dir.exist?('reports')
-      
-      # Store analysis results
-      if File.exist?('reports/coding_style.json')
-        reports = JSON.parse(IO.read('reports/coding_style.json'))
-      else
-        reports = {}
-      end
+    # Append new results in the json file
+    # @param reports [Array] Previous results
+    # @param filename [String] Name/Path of the analyzed file
+    # @param res [Hash] Hash containing the new results to append
+    def append_results(reports, filename, res)
       reports[filename] ||= []
       reports[filename] << {
         'Date' => Time.now,
@@ -104,9 +116,6 @@ module Rcqm
         'Fatal errors' => (res[:F].empty?) ? nil : res[:F],
         'Warnings' => (res[:W].empty?) ? nil : res[:W]
       }
-      File.open('reports/coding_style.json', 'w') do |fd|
-        fd.puts(JSON.pretty_generate(reports))
-      end
     end
     
   end
