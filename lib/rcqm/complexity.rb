@@ -25,10 +25,12 @@ module Rcqm
     def check_file(filename)
       flog_res = `flog -abcm #{filename}`
       results = parse_flog_output(flog_res)
-      unless @options[:quiet] || (results[:total] == 0)
-        puts
-        puts "=== #{filename} ===".bold
-        print_complexity_scores(results)
+      unless @options[:quiet] || (results[:total].to_i == 0)
+        unless @options[:dev]
+          puts
+          puts "=== #{filename} ===".bold
+        end
+        print_complexity_scores(filename, results)
       end
       report_results(filename, results, 'complexity') if @options[:report]
     end
@@ -71,21 +73,44 @@ module Rcqm
     end
     
     # Print formatted results of complexity scores
+    # If dev mode enabled, print only methods with compelxity score > 25
+    # @param filename [String] Name of the analyzed file
     # @param scores [Hash] Hash containing the results to print
-    def print_complexity_scores(scores)
-      puts 'Complexity'.rjust(10) + ' | ' + 'Method name'.ljust(50)
-      puts '-------------------------------------------------------------------'
+    def print_complexity_scores(filename, scores)
+      critical_scores = 0
+      unless @options[:dev]
+        puts 'Complexity'.rjust(10) + ' | ' + 'Method name'.ljust(50)
+        puts '-------------------------------------------------------------------'
+      end
       scores[:per_method].each do |res|
         if res[:complexity].to_i > 60
+          if (critical_scores == 0) && (@options[:dev])
+            puts
+            puts "=== #{filename} ===".bold
+            puts 'Complexity'.rjust(10) + ' | ' + 'Method name'.ljust(50)
+            puts '-------------------------------------------------------------------'
+          end
+          critical_scores += 1
           puts "#{res[:complexity].rjust(10).red} | #{res[:method].red}"
         elsif res[:complexity].to_i > 25
+          if (critical_scores) == 0 && (@options[:dev])
+            puts
+            puts "=== #{filename} ===".bold
+            puts 'Complexity'.rjust(10) + ' | ' + 'Method name'.ljust(50)
+            puts '-------------------------------------------------------------------'
+          end
+          critical_scores += 1
           puts "#{res[:complexity].rjust(10).yellow} | #{res[:method].yellow}"
         else
-          puts "#{res[:complexity].rjust(10)} | #{res[:method]}"
+          unless @options[:dev]
+            puts "#{res[:complexity].rjust(10)} | #{res[:method]}"
+          end
         end
       end
-      puts '-------------------------------------------------------------------'
-      puts "#{scores[:total]}".rjust(10) + ' | ' + 'Total'
+      unless @options[:dev]
+        puts '-------------------------------------------------------------------'
+        puts "#{scores[:total]}".rjust(10) + ' | ' + 'Total'
+      end
     end
     
   end

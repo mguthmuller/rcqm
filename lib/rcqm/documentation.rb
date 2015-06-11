@@ -33,9 +33,11 @@ module Rcqm
               results[:B].empty? &&
               results[:C].empty? &&
               results[:U].empty?)
-        puts
-        puts "=== #{filename} ===".bold
-        print_documentation_rates(results)
+        unless @options[:dev]
+          puts
+          puts "=== #{filename} ===".bold
+        end
+        print_documentation_rates(filename,results)
       end
       report_results(filename, results, 'documentation') if @options[:report]
     end
@@ -85,13 +87,18 @@ module Rcqm
     end
 
     # Print formatted results of documentation rates
+    # @param filename [String] Name of the analyzed file
     # @param res [Hash] Hash containing the results to print
-    def print_documentation_rates(res)
-      unless res[:A].empty?
+    def print_documentation_rates(filename, res)
+      unless (res[:A].empty?) || (@options[:dev])
         puts '# Good documentation:'.green
         res[:A].each do |item|
           puts "  - #{item}" 
         end
+      end
+       if (@options[:dev]) && (!res[:B].empty? || !res[:C].empty? || !res[:U].empty?)
+          puts
+          puts "=== #{filename} ===".bold
       end
       unless res[:B].empty?
         puts '# Properly documented, but could be improved:'.yellow

@@ -19,6 +19,7 @@ module Rcqm
       @options[:metrics] = 'all'
       @options[:quiet] = false
       @options[:report] = true
+      @options[:dev] = false
       @options[:config] = "#{File.expand_path(File.join(File.dirname(__FILE__), ".."))}/config/.rubocop.yml"
       optparse = OptionParser.new do |opts|
         # Usage
@@ -60,6 +61,10 @@ module Rcqm
         # Disable reporting
         opts.on('-n', '--no_report', 'Disable reporting') do
           @options[:report] = false
+        end
+        # Developer mode: display only information to improve
+        opts.on('-d', '--dev', 'Developer mode') do
+          @options[:dev] = true
         end
       end
       
