@@ -17,6 +17,7 @@ rcqm [options]
 -c, --config=CONFIG_FILE         Upload your own rubocop configuration file
 -q, --quiet                      Disable result display
 -n, --no_report                  Disable reporting
+-d, --dev                        Developer mode
 ```
 
 ## Metrics names:
