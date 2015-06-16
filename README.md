@@ -1,6 +1,6 @@
 # Ruby Code Quality Metrics
 
-## Usage:
+## Usage
 
 ```bash
 rcqm [options]
@@ -20,7 +20,7 @@ rcqm [options]
 -d, --dev                        Developer mode
 ```
 
-## Metrics names:
+## Metrics names
 - coverage 
 - coding_style 
 - statistics
@@ -33,7 +33,7 @@ rcqm [options]
 
 'app', 'bin', 'feature', 'lib', 'spec' and 'test' directories
 
-## Functionalities:
+## Functionalities
 
 ### Tags (FIXME, TODO, ...) tracking (with '-m tags' option)
 
@@ -43,7 +43,7 @@ You can specify other tags with '-t' option
 
 You can specify which statistics to evaluate with '-s' option
 
-#### List of statistics available
+*List of statistics available*
 - total: Total lines
 - empty: Empty lines
 - comments: Commented lines

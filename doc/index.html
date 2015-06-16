@@ -1,0 +1,180 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>
+  File: README
+  
+    &mdash; Documentation by YARD 0.8.7.6
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  hasFrames = window.top.frames.main ? true : false;
+  relpath = '';
+  framesUrl = "frames.html#!file.README.html";
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="header">
+      <div id="menu">
+  
+    <a href="_index.html">Index</a> &raquo; 
+    <span class="title">File: README</span>
+  
+
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+      Class List
+    </a>
+  
+    <a class="full_list_link" id="method_list_link"
+        href="method_list.html">
+      Method List
+    </a>
+  
+    <a class="full_list_link" id="file_list_link"
+        href="file_list.html">
+      File List
+    </a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+
+    <iframe id="search_frame"></iframe>
+
+    <div id="content"><div id='filecontents'><h1>Ruby Code Quality Metrics</h1>
+
+<h2>Usage:</h2>
+
+<pre class="code bash"><code class="bash">rcqm [options]
+</code></pre>
+
+<h2>Command line options</h2>
+
+<pre class="code bash"><code class="bash">-f, --files=FILES                List of specific files to analyze (separate with &#39;,&#39;)
+-e, --exclude=FILES              Exclude files from analysis (separate with &#39;,&#39;)
+-m, --metrics=METRICS            List of metrics to evaluate (separate with &#39;,&#39;)
+-t, --tags=TAGS                  List of tags to evaluate (separate with &#39;,&#39;)
+-s, --statistics=STATISTICS      List of statistics to evaluate (separate with &#39;,&#39;)
+-c, --config=CONFIG_FILE         Upload your own rubocop configuration file
+-q, --quiet                      Disable result display
+-n, --no_report                  Disable reporting
+-d, --dev                        Developer mode
+</code></pre>
+
+<h2>Metrics names:</h2>
+
+<ul>
+<li>coverage </li>
+<li>coding_style </li>
+<li>statistics</li>
+<li>tags</li>
+<li>complexity </li>
+<li>documentation</li>
+<li>all</li>
+</ul>
+
+<h2>Default files included in the analysis</h2>
+
+<p>&#39;app&#39;, &#39;bin&#39;, &#39;feature&#39;, &#39;lib&#39;, &#39;spec&#39; and &#39;test&#39; directories</p>
+
+<h2>Functionalities:</h2>
+
+<h3>Tags (FIXME, TODO, ...) tracking (with &#39;-m tags&#39; option)</h3>
+
+<p>You can specify other tags with &#39;-t&#39; option</p>
+
+<h3>Statistics (per file, with &#39;-m statistics&#39; option)</h3>
+
+<p>You can specify which statistics to evaluate with &#39;-s&#39; option</p>
+
+<h4>List of statistics available</h4>
+
+<ul>
+<li>total: Total lines</li>
+<li>empty: Empty lines</li>
+<li>comments: Commented lines</li>
+<li>locs: Lines of code</li>
+<li>modules: Number of modules (&#39;module&#39; tag tracking)</li>
+<li>classes: Number of classes (&#39;class&#39; tag tracking) </li>
+<li>methods: Methods (&#39;def&#39; tag tracking)</li>
+<li>requires: Requires (&#39;require&#39; tag tracking)</li>
+<li>all : All previous statistics</li>
+</ul>
+
+<h3>Documentation rates (with &#39;-m documentation&#39; option)</h3>
+
+<p>Based on <a href="https://github.com/rrrene/inch">inch</a> gem</p>
+
+<h4>Documentation grade</h4>
+
+<ul>
+<li>A: Seems really good</li>
+<li>B: Properly documented</li>
+<li>C: Needs work</li>
+<li>U: Undocumented</li>
+</ul>
+
+<h3>Coding style (with &#39;-m coding_style&#39; option)</h3>
+
+<ul>
+<li>Based on <a href="https://github.com/bbatsov/rubocop">rubocop</a> gem</li>
+<li>Configuration file in config/.rubocop.yml</li>
+<li>You can include your own rubocop configuration with &#39;-c path/config/file&#39; option</li>
+</ul>
+
+<h3>Cyclomatic complexity (with &#39;-m complexity&#39; option)</h3>
+
+<p>Based on <a href="https://github.com/seattlerb/flog">flog</a></p>
+
+<h3>Not implemented yet ...</h3>
+
+<ul>
+<li>Code Coverage</li>
+<li>Dead Code</li>
+<li>Duplication</li>
+</ul>
+
+<h2>Analysis reporting</h2>
+
+<ul>
+<li>Results of each analysis are stored in a json file (&#39;tags.json&#39;, &#39;statistics.json&#39;, ...)  in &#39;reports&#39; directory</li>
+<li>You can disable it with &#39;-n&#39; option</li>
+</ul>
+
+<h2>Dependancies:</h2>
+
+<ul>
+<li><a href="https://github.com/rrrene/inch">inch</a></li>
+<li><a href="https://github.com/bbatsov/rubocop">rubocop</a></li>
+<li><a href="https://github.com/seattlerb/flog">flog</a></li>
+</ul>
+</div></div>
+
+    <div id="footer">
+  Generated on Tue Jun 16 13:49:13 2015 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.8.7.6 (ruby-2.1.5).
+</div>
+
+  </body>
+</html>
