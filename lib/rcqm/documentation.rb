@@ -22,6 +22,7 @@ module Rcqm
 
     # Launch `inch` one the file given in parameter and report results
     # @param filename [String] The path of the file to analyze
+    # @return [Integer] Return code
     def check_file(filename)
       pwd = Dir.pwd
       Dir.chdir(File.dirname(filename))
@@ -40,11 +41,12 @@ module Rcqm
         print_documentation_rates(filename,results)
       end
       report_results(filename, results, 'documentation') if @options[:report]
+      (results[:C].empty? && results[:U].empty?) ? 0 : 1
     end
 
     # Parse and format output returned by inch
     # @param output [String] Inch output
-    # @return grades [Hash] Inch output formatted
+    # @return [Hash] Inch output formatted
     def parse_inch_output(output)
       grades = {
         :A => [],

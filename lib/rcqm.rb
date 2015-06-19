@@ -81,9 +81,10 @@ module Rcqm
 
     # Launch individual checks for each metric specified in command line
     def individual_checks
+      return_code = 0
       metrics = @options[:metrics].split(',')
       if metrics.include?('all')
-        all_checks
+        return_code = all_checks
       else
         metrics.each do |metric_name|
           case metric_name
@@ -91,40 +92,43 @@ module Rcqm
             $stderr.puts('Coverage metric not implemented yet! Ignore it')
           when 'coding_style'
             @coding_style_metric = CodingStyle.new(@options)
-            @coding_style_metric.check('Coding style')
+            return_code |= @coding_style_metric.check('Coding style')
           when 'statistics'
             @statistics_metric = Statistics.new(@options)
-            @statistics_metric.check('Statistics')
+            return_code |= @statistics_metric.check('Statistics')
           when 'tags'
             @tags_metric = Tags.new(@options)
-            @tags_metric.check('Tags tracking')
+            return_code |= @tags_metric.check('Tags tracking')
           when 'complexity'
             @complexity_metric = Complexity.new(@options)
-            @complexity_metric.check('Complexity')
+            return_code |= @complexity_metric.check('Complexity')
           when 'documentation'
             @documentation_metric = Documentation.new(@options)
-            @documentation_metric.check('Documentation')
+            return_code |= @documentation_metric.check('Documentation')
           else
             $stderr.puts "#{metric_name}: Unknown metric. Ignore it."
           end
         end
       end
+      return_code
     end
 
     # Launch checks for all metrics 
     def all_checks
+      return_code = 0
       @coding_style_metric = CodingStyle.new(@options)
-      @coding_style_metric.check('Coding style')
+      return_code |= @coding_style_metric.check('Coding style')
       @complexity_metric = Complexity.new(@options)
-      @complexity_metric.check('Complexity')
+      return_code |= @complexity_metric.check('Complexity')
       @documentation_metric = Documentation.new(@options)
-      @documentation_metric.check('Documentation')
+      return_code |= @documentation_metric.check('Documentation')
       unless @options[:dev]
         @statistics_metric = Statistics.new(@options)
-        @statistics_metric.check('Statistics')
+        return_code |= @statistics_metric.check('Statistics')
       end
       @tags_metric = Tags.new(@options)
-      @tags_metric.check('Tags tracking')
+      return_code |= @tags_metric.check('Tags tracking')
+      return_code
     end
 
     # Run metric checks

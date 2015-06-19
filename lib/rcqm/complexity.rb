@@ -22,7 +22,9 @@ module Rcqm
 
     # Launch `flog` one the file given in parameter and report results
     # @param filename [String] The path of the file to analyze
+    # @return [Integer] Return code
     def check_file(filename)
+      puts filename
       flog_res = `flog -abcm #{filename}`
       results = parse_flog_output(flog_res)
       unless @options[:quiet] || (results[:total].to_i == 0)
@@ -33,11 +35,12 @@ module Rcqm
         print_complexity_scores(filename, results)
       end
       report_results(filename, results, 'complexity') if @options[:report]
+      (results[:total].to_i == 0) ? 0 : 1
     end
 
     # Parse and format output returned by flog
     # @param output [String] Flog output
-    # @return res [Hash] Flog output formatted
+    # @return [Hash] Flog output formatted
     def parse_flog_output(output)
       res = {
         :total => 0,

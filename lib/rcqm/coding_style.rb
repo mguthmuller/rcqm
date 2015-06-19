@@ -39,6 +39,8 @@ module Rcqm
       end
       # Report results in a json file
       report_results(filename, results, 'coding_style') if @options[:report]
+      # Return code
+      (results[:C].empty? && results[:E].empty? && results[:F].empty?) ? 0 : 1
     end
 
     # Parse rubocop output to extract line, column, message and the offense type

@@ -47,7 +47,9 @@ module Rcqm
 
     # Recursive crossing of directory content
     # @param dirname [String] Name/Path of the directory to analyze
+    # @return [Integer] Return code (0=SUCCESS, FAILED!=0)
     def check_dir(dirname)
+      return_code = 0
       Dir.open(dirname).each do |subfile|
         # Exclude '.', '..', '.git' directories 
         next if (subfile.eql? '..') ||
@@ -59,20 +61,21 @@ module Rcqm
           next if (subfile =~ /^\#/) ||
                   (subfile =~ /.*\~/) ||
                   (subfile !~ /\.rb$/)  # only ruby files are analyzed
-          check_file("#{dirname}/#{subfile}")
+          return_code |= check_file("#{dirname}/#{subfile}")
         elsif File.directory?("#{dirname}/#{subfile}")
-          check_dir("#{dirname}/#{subfile}")
+          return_code |= check_dir("#{dirname}/#{subfile}")
         else
           $stderr.puts "#{subfile}: Unknown type of file. Ignore it!"
         end
       end
+      return_code
     end
 
     # Return true if the file given in parameter must be exclude from the
     # analysis according to files specified on command line with
     # option '-e'
     # @param filename [String] Name/Path of file to check
-    # @return [Boolean]
+    # @return [Boolean] True if excluded file
     def in_excluded_files(filename)
       unless @options[:exclude].nil? || @excluded_files.empty?
         @excluded_files.each do |excluded_file|
@@ -86,14 +89,16 @@ module Rcqm
     # Start the metric evaluation for each file specified on command line
     # with option '-f' or the default ones if empty
     # @param metric_name [String] The metric name to evaluate
+    # @return [Integer] Return code (0=SUCCESS, FAILED!=0)
     def check(metric_name)
+      return_code = 0
       @files.each do |filename|
         next if (filename.eql? '..') || (filename.eql? '.') ||
                 in_excluded_files(filename) || !File.exist?(filename)
         if File.file?(filename) && filename =~ /\.rb$/ 
-          check_file(filename)
+          return_code |= check_file(filename)
         elsif File.directory?(filename)
-          check_dir(filename)
+          return_code |= check_dir(filename)
         else
           $stderr.puts "#{filename}: Unknown type of file "\
                       "#{File.ftype(filename)} . Aborted!"
@@ -102,6 +107,7 @@ module Rcqm
       end
       puts
       puts ">>>>>>>>>>>>> #{metric_name} done <<<<<<<<<<<<<"
+      return_code
     end
 
     # Remove color cosmetics for a given string

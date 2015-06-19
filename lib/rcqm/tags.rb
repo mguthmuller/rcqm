@@ -12,7 +12,7 @@ module Rcqm
     def initialize(*args)
       # Get options values
       super(*args)
-      # Quiet mode disable
+      # Quiet mode disabled
       unless @options[:quiet]
         puts 
         puts '***********************************************************'.bold
@@ -60,6 +60,7 @@ module Rcqm
         puts "=== #{filename} ===".bold
         print_tags(lines)
       end
+      0
     end
 
     # Print formatted tags tracking result

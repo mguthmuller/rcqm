@@ -23,6 +23,7 @@ module Rcqm
 
     # Get statistics about file given in paramater
     # @param filename [String] The path of the file to analyze
+    # @return [Integer] Return code
     def check_file(filename)
       @lines = File.readlines(filename)
       res = {
@@ -54,6 +55,7 @@ module Rcqm
       end
       # Report results in the json file
       report_results(filename, res, 'statistics') if @options[:report]
+      0
     end
 
     # Check if statistic given in parameter is included
