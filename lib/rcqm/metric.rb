@@ -68,7 +68,7 @@ module Rcqm
           $stderr.puts "#{subfile}: Unknown type of file. Ignore it!"
         end
       end
-      return_code
+      return return_code
     end
 
     # Return true if the file given in parameter must be exclude from the
@@ -107,7 +107,7 @@ module Rcqm
       end
       puts
       puts ">>>>>>>>>>>>> #{metric_name} done <<<<<<<<<<<<<"
-      return_code
+      exit return_code
     end
 
     # Remove color cosmetics for a given string
@@ -140,7 +140,6 @@ module Rcqm
         fd.puts(JSON.pretty_generate(reports))
       end
     end
-
     
   end
 
