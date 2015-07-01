@@ -133,7 +133,9 @@ module Rcqm
 
     # Run metric checks
     def run
-      individual_checks
+      return_code = individual_checks
+      puts "Return code : #{return_code}"
+      exit return_code
     end
     
   end

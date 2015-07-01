@@ -107,7 +107,7 @@ module Rcqm
       end
       puts
       puts ">>>>>>>>>>>>> #{metric_name} done <<<<<<<<<<<<<"
-      exit return_code
+      return_code
     end
 
     # Remove color cosmetics for a given string
