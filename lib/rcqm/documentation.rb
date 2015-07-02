@@ -13,10 +13,16 @@ module Rcqm
     def initialize(*args)
       super(*args)
       unless @options[:quiet]
-        puts 
-        puts '***********************************************************'.bold
-        puts '******************* Documentation rates *******************'.bold
-        puts '***********************************************************'.bold
+        puts
+        if @options[:jenkins]
+          puts '***********************************************************'
+          puts '******************* Documentation rates *******************'
+          puts '***********************************************************'
+        else
+          puts '***********************************************************'.bold
+          puts '******************* Documentation rates *******************'.bold
+          puts '***********************************************************'.bold
+        end
       end
     end
 
@@ -36,7 +42,9 @@ module Rcqm
               results[:U].empty?)
         unless @options[:dev]
           puts
-          puts "=== #{filename} ===".bold
+          @options[:jenkins] ?
+            puts("=== #{filename} ===") :
+            puts("=== #{filename} ===".bold)
         end
         print_documentation_rates(filename,results)
       end
@@ -93,7 +101,9 @@ module Rcqm
     # @param res [Hash] Hash containing the results to print
     def print_documentation_rates(filename, res)
       unless (res[:A].empty?) || (@options[:dev])
-        puts '# Good documentation:'.green
+        @options[:jenkins] ?
+          puts('# Good documentation:') :
+          puts('# Good documentation:'.green)
         res[:A].each do |item|
           puts "  - #{item}" 
         end
@@ -101,22 +111,30 @@ module Rcqm
       if (@options[:dev]) &&
          (!res[:B].empty? || !res[:C].empty? || !res[:U].empty?)
         puts
-        puts "=== #{filename} ===".bold
+        @options[:jenkins] ?
+          puts("=== #{filename} ===") :
+          puts("=== #{filename} ===".bold)
       end
       unless res[:B].empty?
-        puts '# Properly documented, but could be improved:'.yellow
+        @options[:jenkins] ?
+          puts('# Properly documented, but could be improved:') :
+          puts('# Properly documented, but could be improved:'.yellow)
         res[:B].each do |item|
           puts "  - #{item}" 
         end
       end
       unless res[:C].empty?
-        puts '# Need work:'.red
+        @options[:jenkins] ?
+          puts('# Need work:') :
+          puts('# Need work:'.red)
         res[:C].each do |item|
           puts "  - #{item}" 
         end
       end
       unless res[:U].empty?
-        puts '# Undocumented:'.magenta
+        @options[:jenkins] ?
+          puts('# Undocumented:') :
+          puts('# Undocumented:'.magenta)
         res[:U].each do |item|
           puts "  - #{item}" 
         end

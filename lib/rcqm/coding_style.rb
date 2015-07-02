@@ -14,10 +14,16 @@ module Rcqm
     def initialize(*args)
       super(*args)
       unless @options[:quiet]
-        puts 
-        puts '************************************************************'.bold
-        puts '*********************** Coding style ***********************'.bold
-        puts '************************************************************'.bold
+        puts
+        if @options[:jenkins] 
+          puts '************************************************************'
+          puts '*********************** Coding style ***********************'
+          puts '************************************************************'
+        else
+          puts '************************************************************'.bold
+          puts '*********************** Coding style ***********************'.bold
+          puts '************************************************************'.bold
+        end
       end
     end
 
@@ -34,7 +40,9 @@ module Rcqm
               results[:W].empty?) ||
              @options[:quiet]
         puts
-        puts "=== #{filename} ===".bold
+        @options[:jenkins] ?
+          puts("=== #{filename} ===") :
+          puts("=== #{filename} ===".bold)
         print_offenses(results)
       end
       # Report results in a json file
@@ -80,25 +88,33 @@ module Rcqm
     # @param res [Hash] Hash containing rubocop results
     def print_offenses(res)
       unless res[:C].empty?
-        puts '# Issues with convention:'.red
+        @options[:jenkins]  ?
+          puts('# Issues with convention:') :
+          puts('# Issues with convention:'.red)
         res[:C].each do |item|
           puts "  - #{item}" 
         end
       end
       unless res[:E].empty?
-        puts '# Errors:'.red
+        @options[:jenkins] ?
+          puts('# Errors:') :
+          puts('# Errors:'.red)
         res[:E].each do |item|
           puts "  - #{item}" 
         end
       end
       unless res[:F].empty?
-        puts '# Fatal errors:'.red 
+        @options[:jenkins] ?
+          puts('# Fatal errors:') :
+          puts('# Fatal errors:'.red) 
         res[:F].each do |item|
           puts "  - #{item}" 
         end
       end
       unless res[:W].empty?
-        puts '# Warnings:'.red 
+        @options[:jenkins] ?
+          puts('# Warnings:') :
+          puts('# Warnings:'.red) 
         res[:W].each do |item|
           puts "  - #{item}" 
         end

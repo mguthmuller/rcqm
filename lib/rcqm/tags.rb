@@ -14,10 +14,16 @@ module Rcqm
       super(*args)
       # Quiet mode disabled
       unless @options[:quiet]
-        puts 
-        puts '***********************************************************'.bold
-        puts '********************** Tags matching **********************'.bold
-        puts '***********************************************************'.bold
+        puts
+        if @options[:jenkins]
+          puts '***********************************************************'
+          puts '********************** Tags matching **********************'
+          puts '***********************************************************'
+        else
+          puts '***********************************************************'.bold
+          puts '********************** Tags matching **********************'.bold
+          puts '***********************************************************'.bold
+        end
       end
     end
 
@@ -57,7 +63,9 @@ module Rcqm
       # Print results if required
       unless @options[:quiet] || lines.empty?
         puts
-        puts "=== #{filename} ===".bold
+        @options[:jenkins] ?
+          puts("=== #{filename} ===") :
+          puts("=== #{filename} ===".bold)
         print_tags(lines)
       end
       0

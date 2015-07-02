@@ -20,6 +20,7 @@ module Rcqm
       @options[:quiet] = false
       @options[:report] = true
       @options[:dev] = false
+      @options[:jenkins] = false
       @options[:config] =
         "#{File.expand_path(File.join(File.dirname(__FILE__), ".."))}"\
         '/config/.rubocop.yml'
@@ -68,6 +69,10 @@ module Rcqm
         # Developer mode: display only information to improve
         opts.on('-d', '--dev', 'Developer mode') do
           @options[:dev] = true
+        end
+        # Jenkins mode: disable font cosmetics
+        opts.on('-j', '--jenkins', 'Jenkins mode') do
+          @options[:jenkins] = true
         end
       end
       

@@ -13,9 +13,15 @@ module Rcqm
       super(*args)
       unless @options[:quiet]
         puts
-        puts '************************************************************'.bold
-        puts '************************ Statistics ************************'.bold
-        puts '************************************************************'.bold
+        if @options[:jenkins]
+          puts '************************************************************'
+          puts '************************ Statistics ************************'
+          puts '************************************************************'
+        else
+          puts '************************************************************'.bold
+          puts '************************ Statistics ************************'.bold
+          puts '************************************************************'.bold
+        end
       end
       @selected_statistics =
         @options[:stats].split(',') unless @options[:stats].nil?
@@ -50,7 +56,9 @@ module Rcqm
       end
       unless @options[:quiet]
         puts
-        puts "=== #{filename} ===".bold
+        @options[:jenkins] ?
+          puts("=== #{filename} ===") :
+          puts("=== #{filename} ===".bold)
         print_statistics(res)
       end
       # Report results in the json file

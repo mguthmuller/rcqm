@@ -14,9 +14,15 @@ module Rcqm
       super(*args)
       unless @options[:quiet]
         puts
-        puts '************************************************************'.bold
-        puts '************************ Complexity ************************'.bold
-        puts '************************************************************'.bold
+        if @options[:jenkins]
+          puts '************************************************************'
+          puts '************************ Complexity ************************'
+          puts '************************************************************'
+        else
+          puts '************************************************************'.bold
+          puts '************************ Complexity ************************'.bold
+          puts '************************************************************'.bold
+        end
       end
     end
 
@@ -24,13 +30,14 @@ module Rcqm
     # @param filename [String] The path of the file to analyze
     # @return [Integer] Return code
     def check_file(filename)
-      puts filename
       flog_res = `flog -abcm #{filename}`
       results = parse_flog_output(flog_res)
       unless @options[:quiet] || (results[:total].to_i == 0)
         unless @options[:dev]
           puts
-          puts "=== #{filename} ===".bold
+          @options[:jenkins] ?
+            puts("=== #{filename} ===") :
+            puts("=== #{filename} ===".bold)
         end
         print_complexity_scores(filename, results)
       end
@@ -89,21 +96,29 @@ module Rcqm
         if res[:complexity].to_i > 60
           if (critical_scores == 0) && (@options[:dev])
             puts
-            puts "=== #{filename} ===".bold
+            @options[:jenkins] ?
+              puts("=== #{filename} ===") :
+              puts("=== #{filename} ===".bold)
             puts 'Complexity'.rjust(10) + ' | ' + 'Method name'.ljust(50)
             puts '-------------------------------------------------------------'
           end
           critical_scores += 1
-          puts "#{res[:complexity].rjust(10).red} | #{res[:method].red}"
+          @options[:jenkins] ?
+            puts("#{res[:complexity].rjust(10)} | #{res[:method]}") :
+            puts("#{res[:complexity].rjust(10).red} | #{res[:method].red}")
         elsif res[:complexity].to_i > 25
           if (critical_scores) == 0 && (@options[:dev])
             puts
-            puts "=== #{filename} ===".bold
+            @options[:jenkins] ?
+              puts("=== #{filename} ===") :
+              puts("=== #{filename} ===".bold)
             puts 'Complexity'.rjust(10) + ' | ' + 'Method name'.ljust(50)
             puts '--------------------------------------------------------------'
           end
           critical_scores += 1
-          puts "#{res[:complexity].rjust(10).yellow} | #{res[:method].yellow}"
+          @options[:jenkins] ?
+            puts("#{res[:complexity].rjust(10)} | #{res[:method]}") :
+            puts("#{res[:complexity].rjust(10).yellow} | #{res[:method].yellow}")
         else
           unless @options[:dev]
             puts "#{res[:complexity].rjust(10)} | #{res[:method]}"
