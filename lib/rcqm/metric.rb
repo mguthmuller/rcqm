@@ -68,7 +68,7 @@ module Rcqm
           $stderr.puts "#{subfile}: Unknown type of file. Ignore it!"
         end
       end
-      return return_code
+      return_code
     end
 
     # Return true if the file given in parameter must be exclude from the

@@ -259,13 +259,6 @@ Style/MultilineIfThen:
   StyleGuide: 'https://github.com/bbatsov/ruby-style-guide#no-then'
   Enabled: true
 
-Style/MultilineTernaryOperator:
-  Description: >-
-                 Avoid multi-line ?: (the ternary operator);
-                 use if/unless instead.
-  StyleGuide: 'https://github.com/bbatsov/ruby-style-guide#no-multiline-ternary'
-  Enabled: true
-
 Style/NegatedIf:
   Description: >-
                  Favor unless over if for negative conditions
@@ -838,6 +831,13 @@ Style/MultilineOperationIndentation:
   Enabled: false
   EnforcedStyle: indented
 
+Style/MultilineTernaryOperator:
+  Description: >-
+                 Avoid multi-line ?: (the ternary operator);
+                 use if/unless instead.
+  StyleGuide: 'https://github.com/bbatsov/ruby-style-guide#no-multiline-ternary'
+  Enabled: false
+
 Style/Next:
   Description: 'Use `next` to skip iteration instead of a condition at the end.'
   StyleGuide: 'https://github.com/bbatsov/ruby-style-guide#no-nested-conditionals'
@@ -856,6 +856,13 @@ Style/OneLineConditional:
                  Favor the ternary operator(?:) over
                  if/then/else/end constructs.
   StyleGuide: 'https://github.com/bbatsov/ruby-style-guide#ternary-operator'
+  Enabled: false
+
+Style/ParallelAssignment:
+  Description: >-
+                  Check for simple usages of parallel assignment.
+                  It will only warn when the number of variables
+                  matches on both sides of the assignment.
   Enabled: false
 
 Style/PercentLiteralDelimiters:
@@ -1137,13 +1144,6 @@ Performance/FlatMap:
   # `flatten` being called without any parameters.
   # This can be dangerous since `flat_map` will only flatten 1 level, and
   # `flatten` without any parameters can flatten multiple levels.
-
-Performance/ParallelAssignment:
-  Description: >-
-                  Check for simple usages of parallel assignment.
-                  It will only warn when the number of variables
-                  matches on both sides of the assignment.
-  Enabled: false
 
 Performance/ReverseEach:
   Description: 'Use `reverse_each` instead of `reverse.each`.'
