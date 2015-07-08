@@ -18,6 +18,7 @@ rcqm [options]
 -q, --quiet                      Disable result display
 -n, --no_report                  Disable reporting
 -d, --dev                        Developer mode
+-j, --jenkins                    Disable font cosmetics
 ```
 
 ## Metrics names
