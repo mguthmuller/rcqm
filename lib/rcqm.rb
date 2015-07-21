@@ -6,10 +6,10 @@ require_relative 'rcqm/tags.rb'
 require_relative 'rcqm/complexity.rb'
 require_relative 'rcqm/documentation.rb'
 
-# Rcqm module
+# Rcqm main module : Contains one class for each metric returned by rcqm
 module Rcqm
 
-  # Rcqm class, corresponding object used in rcqm executable script 
+  # Rcqm class, corresponding object used in rcqm executable script
   class Rcqm
 
     # Constructor
@@ -75,7 +75,7 @@ module Rcqm
           @options[:jenkins] = true
         end
       end
-      
+
       # Parse options et check their validity
       begin
         optparse.parse!
@@ -118,7 +118,7 @@ module Rcqm
       return_code
     end
 
-    # Launch checks for all metrics 
+    # Launch checks for all metrics
     def all_checks
       return_code = 0
       @coding_style_metric = CodingStyle.new(@options)
@@ -142,7 +142,7 @@ module Rcqm
       puts "Return code : #{return_code}"
       exit return_code
     end
-    
+
   end
-  
+
 end

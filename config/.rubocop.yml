@@ -131,10 +131,6 @@ Style/DeprecatedHashMethods:
   StyleGuide: 'https://github.com/bbatsov/ruby-style-guide#hash-key'
   Enabled: true
 
-Style/Documentation:
-  Description: 'Document classes and non-namespace modules.'
-  Enabled: true
-
 Style/DotPosition:
   Description: 'Checks the position of the dot in multi-line method calls.'
   StyleGuide: 'https://github.com/bbatsov/ruby-style-guide#consistent-multi-line-chains'
@@ -695,6 +691,10 @@ Style/CommentAnnotation:
 
 Style/Copyright:
   Description: 'Include a copyright notice in each file before any code.'
+  Enabled: false
+
+Style/Documentation:
+  Description: 'Document classes and non-namespace modules.'
   Enabled: false
 
 Style/EachWithObject:

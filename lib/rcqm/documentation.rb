@@ -2,16 +2,16 @@ require_relative 'metric.rb'
 require 'json'
 require 'colorize'
 
-#  Rcqm module
 module Rcqm
 
   # Documentation class, herited from metric class
   class Documentation < Rcqm::Metric
 
     # Constructor
-    # @param args [Hash] Hash containing options values 
+    # @param args [Hash] Hash containing options values
     def initialize(*args)
       super(*args)
+      @elsewhere_documentation = {}
       unless @options[:quiet]
         puts
         if @options[:jenkins]
@@ -60,25 +60,46 @@ module Rcqm
         :A => [],
         :B => [],
         :C => [],
-        :U => []
+        :U => [],
+        :E => []
       }
       output.lines do |line|
         next if line.strip.empty?
         break if  (line =~ /^Nothing to suggest/) ||
                   (line =~ /^You might want to look at these files/)
-        splitted_line = line.split(' ')
-        case splitted_line[1]
+        split_result = line.split(' ')
+        case split_result[1]
         when 'A'
-          grades[:A] << splitted_line[3]
+          grades[:A] << split_result[3]
         when 'B'
-          grades[:B] << splitted_line[3]
-        when 'C'
-          grades[:C] << splitted_line[3]
-        when 'U'
-          grades[:U] << splitted_line[3]
+          grades[:B] << split_result[3]
+        when 'C', 'U'
+          global_grade = get_global_grade(split_result[3])
+          case global_grade
+          when 'A'
+            grades[:A] << split_result[3]
+          when 'B'
+            grades[:B] << split_result[3]
+          when 'C'
+            grades[:C] << split_result[3]
+          when 'U'
+            grades[:U] << split_result[3]
+          end
         end
       end
       grades
+    end
+
+    # Get global grade if object declared in several files
+    # @param object_name [String] Object name
+    # @return [String] Global grade
+    def get_global_grade(object_name)
+      inch_show_result = uncolorize(`inch  show #{object_name}`)
+      inch_show_result.lines do |line|
+        split_result = line.split(' ')
+        next if split_result[1]  != 'Grade:'
+        return split_result[2]
+      end
     end
 
     # Append new results in the json file
@@ -105,7 +126,7 @@ module Rcqm
           puts('# Good documentation:') :
           puts('# Good documentation:'.green)
         res[:A].each do |item|
-          puts "  - #{item}" 
+          puts "  - #{item}"
         end
       end
       if (@options[:dev]) &&
@@ -120,7 +141,7 @@ module Rcqm
           puts('# Properly documented, but could be improved:') :
           puts('# Properly documented, but could be improved:'.yellow)
         res[:B].each do |item|
-          puts "  - #{item}" 
+          puts "  - #{item}"
         end
       end
       unless res[:C].empty?
@@ -128,7 +149,7 @@ module Rcqm
           puts('# Need work:') :
           puts('# Need work:'.red)
         res[:C].each do |item|
-          puts "  - #{item}" 
+          puts "  - #{item}"
         end
       end
       unless res[:U].empty?
@@ -136,11 +157,11 @@ module Rcqm
           puts('# Undocumented:') :
           puts('# Undocumented:'.magenta)
         res[:U].each do |item|
-          puts "  - #{item}" 
+          puts "  - #{item}"
         end
       end
     end
-    
+
   end
-  
+
 end

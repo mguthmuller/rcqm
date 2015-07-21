@@ -1,4 +1,3 @@
-# Rcqm main module : Contains one class for each metric returned by rcqm
 module Rcqm
 
   # Metric class : Main class containing methods shared
@@ -8,7 +7,7 @@ module Rcqm
     # Metric constructor with command line interpretation
     # @param options [Hash] Options values parsed form the command line
     def initialize(options)
-      @options = options      
+      @options = options
       check_options_values
     end
 
@@ -51,7 +50,7 @@ module Rcqm
     def check_dir(dirname)
       return_code = 0
       Dir.open(dirname).each do |subfile|
-        # Exclude '.', '..', '.git' directories 
+        # Exclude '.', '..', '.git' directories
         next if (subfile.eql? '..') ||
                 (subfile.eql? '.') ||
                 (subfile =~ /.*\.git.*/) ||
@@ -95,7 +94,7 @@ module Rcqm
       @files.each do |filename|
         next if (filename.eql? '..') || (filename.eql? '.') ||
                 in_excluded_files(filename) || !File.exist?(filename)
-        if File.file?(filename) && filename =~ /\.rb$/ 
+        if File.file?(filename) && filename =~ /\.rb$/
           return_code |= check_file(filename)
         elsif File.directory?(filename)
           return_code |= check_dir(filename)
@@ -113,7 +112,7 @@ module Rcqm
     # Remove color cosmetics for a given string
     # @param string [String] String to uncolorize
     def uncolorize(string)
-      string.gsub(/\e\[(\d+)(;(\d+))*m/, '') 
+      string.gsub(/\e\[(\d+)(;(\d+))*m/, '')
     end
 
     # Report results return by the metric evaluation in the
@@ -124,7 +123,7 @@ module Rcqm
     def report_results(filename, res, metric_name)
       # Create dir 'reports' if it does not exist yet
       Dir.mkdir('reports', 0755) unless Dir.exist?('reports')
-      
+
       # Get previous results if there are
       if File.exist?("reports/#{metric_name}.json")
         reports = JSON.parse(IO.read("reports/#{metric_name}.json"))
@@ -140,7 +139,7 @@ module Rcqm
         fd.puts(JSON.pretty_generate(reports))
       end
     end
-    
+
   end
 
 end

@@ -1,14 +1,13 @@
 require_relative 'metric.rb'
 require 'json'
 
-#  Rcqm module
 module Rcqm
 
   # Tags class, herited from metric class
   class Tags < Rcqm::Metric
 
     # Constructor
-    # @param args [Hash] Hash containing options values 
+    # @param args [Hash] Hash containing options values
     def initialize(*args)
       # Get options values
       super(*args)
@@ -47,7 +46,7 @@ module Rcqm
     # Analyze each individual file, looking for lines containing defined tags
     # @param filename [String] The path of the file to analyze
     def check_file(filename)
-      lines = [] 
+      lines = []
       line_num = 0
       # Get tags to search in file
       pattern = define_regexp
@@ -103,7 +102,7 @@ module Rcqm
         'Tags' => format_result(res)
       }
     end
-      
+
   end
-  
+
 end

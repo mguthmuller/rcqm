@@ -2,14 +2,13 @@ require_relative 'metric.rb'
 require 'json'
 require 'colorize'
 
-#  Rcqm module
 module Rcqm
 
   # Complexity class, herited from metric class
   class Complexity < Rcqm::Metric
 
     # Constructor
-    # @param args [Hash] Hash containing options values 
+    # @param args [Hash] Hash containing options values
     def initialize(*args)
       super(*args)
       unless @options[:quiet]
@@ -55,14 +54,14 @@ module Rcqm
       }
       output.lines do |line|
         next if line.strip.empty?
-        splitted_line = line.split(' ')
-        next if splitted_line[1].eql? 'flog/method'
-        if splitted_line[1..2].join(' ').eql? 'flog total'
-          res[:total] = splitted_line[0].gsub(/:/,'')
+        split_result = line.split(' ')
+        next if split_result[1].eql? 'flog/method'
+        if split_result[1..2].join(' ').eql? 'flog total'
+          res[:total] = split_result[0].gsub(/:/,'')
         else
           res[:per_method] << {
-            :method => splitted_line[1],
-            :complexity => splitted_line[0].gsub(/:/,'')
+            :method => split_result[1],
+            :complexity => split_result[0].gsub(/:/,'')
           }
         end
       end
@@ -78,10 +77,10 @@ module Rcqm
       reports[filename] << {
         'Date' => Time.now,
         'Total' => results[:total],
-        'Complexity per method' => results[:per_method] 
+        'Complexity per method' => results[:per_method]
       }
     end
-    
+
     # Print formatted results of complexity scores
     # If dev mode enabled, print only methods with compelxity score > 25
     # @param filename [String] Name of the analyzed file
@@ -130,7 +129,7 @@ module Rcqm
         puts "#{scores[:total]}".rjust(10) + ' | ' + 'Total'
       end
     end
-    
+
   end
 
 end

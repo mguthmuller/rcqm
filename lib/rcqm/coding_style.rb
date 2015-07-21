@@ -3,19 +3,18 @@ require_relative 'metric.rb'
 require 'json'
 require 'colorize'
 
-# Rcqm main module
 module Rcqm
 
   # CodingStyle class, herited from Metric class
   class CodingStyle < Rcqm::Metric
 
     # Constructor
-    # @param args [Hash] Hash containing options values 
+    # @param args [Hash] Hash containing options values
     def initialize(*args)
       super(*args)
       unless @options[:quiet]
         puts
-        if @options[:jenkins] 
+        if @options[:jenkins]
           puts '************************************************************'
           puts '*********************** Coding style ***********************'
           puts '************************************************************'
@@ -63,12 +62,12 @@ module Rcqm
       output.lines do |line|
         next if line =~ /^==/
         break if line.strip.empty?
-        splitted_line = line.split(' ')
-        offense_level = splitted_line[0].gsub(/\:/,'')
-        line_number = splitted_line[1].gsub(/\:/,'')
-        column_number = splitted_line[2].gsub(/\:/,'')
-        index_end = splitted_line.length
-        msg = splitted_line[3..index_end-1].join(' ')
+        split_result = line.split(' ')
+        offense_level = split_result[0].gsub(/\:/,'')
+        line_number = split_result[1].gsub(/\:/,'')
+        column_number = split_result[2].gsub(/\:/,'')
+        index_end = split_result.length
+        msg = split_result[3..index_end-1].join(' ')
         complete_msg = "Line: #{line_number}, Column: #{column_number} - #{msg}"
         case offense_level
         when 'C'
@@ -92,7 +91,7 @@ module Rcqm
           puts('# Issues with convention:') :
           puts('# Issues with convention:'.red)
         res[:C].each do |item|
-          puts "  - #{item}" 
+          puts "  - #{item}"
         end
       end
       unless res[:E].empty?
@@ -100,23 +99,23 @@ module Rcqm
           puts('# Errors:') :
           puts('# Errors:'.red)
         res[:E].each do |item|
-          puts "  - #{item}" 
+          puts "  - #{item}"
         end
       end
       unless res[:F].empty?
         @options[:jenkins] ?
           puts('# Fatal errors:') :
-          puts('# Fatal errors:'.red) 
+          puts('# Fatal errors:'.red)
         res[:F].each do |item|
-          puts "  - #{item}" 
+          puts "  - #{item}"
         end
       end
       unless res[:W].empty?
         @options[:jenkins] ?
           puts('# Warnings:') :
-          puts('# Warnings:'.red) 
+          puts('# Warnings:'.red)
         res[:W].each do |item|
-          puts "  - #{item}" 
+          puts "  - #{item}"
         end
       end
     end
@@ -135,7 +134,7 @@ module Rcqm
         'Warnings' => (res[:W].empty?) ? nil : res[:W]
       }
     end
-    
+
   end
 
 end

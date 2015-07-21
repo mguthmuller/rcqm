@@ -1,14 +1,13 @@
 require_relative 'metric.rb'
 require 'json'
 
-# Rcqm main module
 module Rcqm
 
   # Statistics class, herited from Metric class
   class Statistics < Rcqm::Metric
 
     # Constructor
-    # @param args [Hash] Hash containing options values 
+    # @param args [Hash] Hash containing options values
     def initialize(*args)
       super(*args)
       unless @options[:quiet]
