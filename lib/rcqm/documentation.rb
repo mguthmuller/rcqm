@@ -49,7 +49,11 @@ module Rcqm
         print_documentation_rates(filename,results)
       end
       report_results(filename, results, 'documentation') if @options[:report]
-      (results[:C].empty? && results[:U].empty?) ? 0 : 1
+      if @options[:jenkins] 
+        (results[:U].empty?) ? 0 : 1
+      else
+         (results[:C].empty? && results[:U].empty?) ? 0 : 1
+      end
     end
 
     # Parse and format output returned by inch
